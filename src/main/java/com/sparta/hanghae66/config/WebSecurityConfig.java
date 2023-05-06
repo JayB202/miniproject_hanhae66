@@ -46,10 +46,10 @@ public class WebSecurityConfig {
         //세션 기반 인증 방식 사용에 대한 내용 : 지금 사용하지 않으므로 비활성화 상태로 설정
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().requestMatchers("/user/**").permitAll()
+        http.authorizeRequests().requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        http.exceptionHandling().accessDeniedPage("/api/user/forbidden");
+        http.exceptionHandling().accessDeniedPage("/auth/forbidden");
 
         return http.build();
     }
