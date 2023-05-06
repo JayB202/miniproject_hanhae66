@@ -20,10 +20,19 @@ public class User extends Timestamped {
     private UserRole role;
 
 
-    public User(String username, String password, UserRole role) {
+    @Column(nullable = false)
+    private int userSkill;
+
+    @Column(nullable = false)
+    private int userYear;
+
+    public User(String username, String password, UserRole role, int userSkill, int userYear) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.userSkill = userSkill;
+        this.userYear = userYear;
+
     }
 
 }
