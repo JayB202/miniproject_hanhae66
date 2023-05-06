@@ -33,7 +33,8 @@ public class LikeService {
     }
 
     public ResponseDto commentLikeService(Long commentId, User user) {
-//
+
+
 //        if(likesCheck.isPresent()) {
 //            postLikesRepository.update(likesCheck.get());
 //        } else {
