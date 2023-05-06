@@ -33,8 +33,7 @@ public class UserService {
 
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
-
-        Optional<User> found = userRepository.findById(requestDto.getUsername());
+        Optional<User> found = userRepository.findByUsername(requestDto.getUsername());
 
         if (found.isPresent()) {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
@@ -60,16 +59,19 @@ public class UserService {
 
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
+//        String test = passwordEncoder.encode(password);
 
         try {
-            User user = userRepository.findById(requestDto.getUsername()).orElseThrow(
+            User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
                     () -> new IllegalArgumentException("없는 ID 입니다.")
             );
+//            String test2 = user.getPassword();
 
             // 비밀번호 확인
             if(!passwordEncoder.matches(password, user.getPassword())){
                 return new ResponseDto("비밀번호를 확인해주세요!!", HttpStatus.BAD_REQUEST);
             }
+
 
             //username (ID) 정보로 Token 생성
             TokenDto tokenDto = jwtUtil.createAllToken(requestDto.getUsername(), user.getRole());

@@ -6,13 +6,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity(name="USERS")
+@Table(name="USERS")
 @NoArgsConstructor
 public class User extends Timestamped {
     @Id
-    private String Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
