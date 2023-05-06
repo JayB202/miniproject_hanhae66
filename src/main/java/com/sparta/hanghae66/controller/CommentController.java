@@ -19,7 +19,8 @@ public class CommentController {
 
     @PostMapping("{postId}")
     public ResponseDto createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.createComment(postId, commentRequestDto.getComment(), String.valueOf(userDetails.getUser().getId()));
+        return commentService.createComment(postId, commentRequestDto.getComment(), userDetails.getUser());
+
     }
 
     @PutMapping("{commentId}")

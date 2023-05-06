@@ -25,10 +25,10 @@ public class CommentService {
     private final CommentLikesRepository commentLikesRepository;
 
     @Transactional
-    public ResponseDto createComment(Long postId, String content, String userId) {
+    public ResponseDto createComment(Long postId, String content, User user) {
         Post post = postCheck(postId);
 
-        Comment comment = new Comment(content, userId);
+        Comment comment = new Comment(content, user.getUsername());
         post.addComment(comment);
 
         commentRepository.save(comment);

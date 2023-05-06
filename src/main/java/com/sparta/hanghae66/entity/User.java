@@ -6,20 +6,22 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity(name="USERS")
+@Table(name="USERS")
 @NoArgsConstructor
 public class User extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
-
 
     @Column(nullable = false)
     private int userSkill;
