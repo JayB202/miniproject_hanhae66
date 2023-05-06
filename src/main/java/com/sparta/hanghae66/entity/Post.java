@@ -63,4 +63,8 @@ public class Post extends Timestamped{
         this.contents = postRequestDto.getContents();
     }
 
+    public void postCountLikes(long likes) {
+        this.postLikesCount = likes;
+    }
+
 }
