@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class User extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -23,11 +23,19 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
+    @Column(nullable = false)
+    private int userSkill;
 
-    public User(String username, String password, UserRole role) {
+    @Column(nullable = false)
+    private int userYear;
+
+    public User(String username, String password, UserRole role, int userSkill, int userYear) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.userSkill = userSkill;
+        this.userYear = userYear;
+
     }
 
 }

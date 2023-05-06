@@ -28,4 +28,8 @@ public class PostLikes {
         this.likes = likes;
     }
 
+    public void postLikesUpdate(boolean likes) {
+        this.likes = likes;
+    }
+
 }

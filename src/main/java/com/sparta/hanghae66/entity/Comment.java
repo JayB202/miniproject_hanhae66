@@ -16,7 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="comment_id")
+    @Column(name = "comment_id")
     private Long commentId;
 
     @Column(nullable = false)
@@ -32,12 +32,16 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public Comment (String content, String userId) {
+    public Comment(String content, String userId) {
         this.content = content;
         this.userId = userId;
     }
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public void commentCountLikes(long likes) {
+        this.commentLikes = likes;
     }
 }
