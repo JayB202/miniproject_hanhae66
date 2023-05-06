@@ -47,8 +47,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostDto viewPost(Long postId) {
         Post post = findPost(postId);
+
         post.viewCountUp(postId);
         postRepository.save(post);
+
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         List<CommentDto> commentDtoList = getAllComment();  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
         PostDto postDto = new PostDto(post);

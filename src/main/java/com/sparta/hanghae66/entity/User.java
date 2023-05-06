@@ -19,6 +19,7 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
+
     @Column(nullable = false)
     private int userSkill;
 
@@ -31,6 +32,7 @@ public class User extends Timestamped {
         this.role = role;
         this.userSkill = userSkill;
         this.userYear = userYear;
+
     }
 
 }

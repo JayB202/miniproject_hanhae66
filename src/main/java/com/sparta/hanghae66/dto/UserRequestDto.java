@@ -28,4 +28,5 @@ public class UserRequestDto {
     private int userSkill;
 
     private int userYear;
+
 }

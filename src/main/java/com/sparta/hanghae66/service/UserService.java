@@ -36,6 +36,7 @@ public class UserService {
         int userSkill = requestDto.getUserSkill();
         int userYear = requestDto.getUserYear();
 
+
         Optional<User> found = userRepository.findById(requestDto.getUsername());
 
         if (found.isPresent()) {
@@ -50,7 +51,9 @@ public class UserService {
             role = UserRole.ADMIN;
         }
 
+
         User user = new User(username, password, role, userSkill, userYear);
+
         userRepository.save(user);
 
 

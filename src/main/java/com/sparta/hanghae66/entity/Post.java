@@ -32,6 +32,7 @@ public class Post extends Timestamped{
     @ColumnDefault("0")
     private Long postLikesCount;
 
+
     @Column(nullable = false)
     @ColumnDefault("0")
     private Long viewCount;
@@ -50,11 +51,13 @@ public class Post extends Timestamped{
         this.contents = postRequestDto.getContents();
         this.username = username;
 
+
     }
 
     public void viewCountUp(Long id){
         this.viewCount += 1;
     }
+
     public void update(PostRequestDto postRequestDto){
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
