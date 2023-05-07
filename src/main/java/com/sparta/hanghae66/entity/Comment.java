@@ -7,8 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 
-
-
 @Getter
 @Setter
 @Entity
@@ -16,11 +14,10 @@ import org.hibernate.annotations.ColumnDefault;
 public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
-    private Long commentId;
+    private Long cmtId;
 
     @Column(nullable = false)
-    private String userId;
+    private String cmtContent;
 
     @Column(nullable = false)
     private String content;
@@ -32,9 +29,9 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public Comment(String content, String userId) {
-        this.content = content;
-        this.userId = userId;
+    public Comment(String content, String userName) {
+        this.cmtContent = content;
+        this.cmtUserName = userName;
     }
 
     public void update(String content) {
