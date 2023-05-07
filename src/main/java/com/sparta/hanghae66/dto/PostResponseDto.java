@@ -1,5 +1,6 @@
 package com.sparta.hanghae66.dto;
 
+import com.sparta.hanghae66.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +46,19 @@ public class PostResponseDto {
         this.postUserName = postUserName;
         this.postVisitCnt = postVisitCnt;
         this.cmtCount = cmtCount;
+    }
+
+    public PostResponseDto(Post post) {
+        this.postId = post.getPostId();
+        this.postTitle = post.getPostTitle();
+        this.postContent = post.getPostContent();
+        this.postSkill = post.getPostSkill();
+        this.postFile = post.getPostFile();
+        this.postLikes = post.getPostLikes();
+        this.postUserId = post.getPostUserId();
+        this.postUserName = post.getPostUserName();
+        this.postVisitCnt = post.getPostVisitCnt();
+        this.cmtCount = post.getCmtCount();
     }
 
     public void setCreatedTime(LocalDateTime createdAt){

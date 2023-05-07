@@ -39,7 +39,7 @@ public class LikeService {
             PostLikes postLikes = new PostLikes(post.getPostId(), post.getPostUserName(), post.getPostUserId(), true);
             postLikesRepository.save(postLikes);
         }
-        long likes = postLikesRepository.getPostLikesCount(user.getId(), postId);
+        long likes = postLikesRepository.getPostLikesCount(postId);
         post.setPostLikes(likes);
         postRepository.save(post);
 

@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface PostLikesRepository extends JpaRepository<PostLikes, Long> {
     Optional<PostLikes> findByPostLikesUserIdAndPostLikesId(String userId, Long postId);
-    @Query("SELECT count(p) FROM TB_POSTLIKES p WHERE p.postLikesUserId = :userId AND p.postLikesId = :postId ")
-    Long getPostLikesCount(@Param("userId") String userId, @Param("postId") Long postId);
+    @Query("SELECT count(p) FROM TB_POSTLIKES p WHERE p.postLikesId = :postId AND p.postLikes = true ")
+    Long getPostLikesCount(@Param("postId") Long postId);
 }

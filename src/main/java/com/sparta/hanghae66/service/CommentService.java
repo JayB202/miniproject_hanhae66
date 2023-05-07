@@ -1,5 +1,6 @@
 package com.sparta.hanghae66.service;
 
+import com.sparta.hanghae66.dto.CommentRequestDto;
 import com.sparta.hanghae66.dto.ResponseDto;
 import com.sparta.hanghae66.entity.Comment;
 import com.sparta.hanghae66.entity.Post;
@@ -28,7 +29,7 @@ public class CommentService {
     public ResponseDto createComment(Long postId, String content, User user) {
         Post post = findPost(postId);
 
-        Comment comment = new Comment(content, user.getUserName());
+        Comment comment = new Comment(content, user.getUserName(), user.getId());
         post.addComment(comment);
 
         commentRepository.save(comment);
@@ -37,7 +38,7 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseDto updateComment(Long commentId, User user) {
+    public ResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, User user) {
         try {
             Comment comment = findComment(commentId);
             UserRole userRole = user.getRole();
@@ -45,12 +46,14 @@ public class CommentService {
             switch (userRole) {
                 case USER:
                     if (StringUtils.pathEquals(comment.getCmtUserId(), user.getId())) {
-                        commentRepository.delete(comment);
-                        return new ResponseDto("삭제완료", HttpStatus.OK);
+                        comment.update(commentRequestDto.getCmtContent());
+                        commentRepository.save(comment);
+                        return new ResponseDto("댓글 수정완료", HttpStatus.OK);
                     }
                 case ADMIN:
-                    commentRepository.delete(comment);
-                    return new ResponseDto("삭제완료", HttpStatus.OK);
+                    comment.update(commentRequestDto.getCmtContent());
+                    commentRepository.save(comment);
+                    return new ResponseDto("댓글 수정완료", HttpStatus.OK);
                 default:
                     return null;
             }
