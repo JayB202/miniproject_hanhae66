@@ -28,8 +28,7 @@ public class PostLikes {
     private boolean postLikes;
 
 
-    public PostLikes(Long postLikesNum, Long postLikesId, String postLikesUserName, String postLikesUserId, boolean postLikes) {
-        this.postLikesNum = postLikesNum;
+    public PostLikes(Long postLikesId, String postLikesUserName, String postLikesUserId, boolean postLikes) {
         this.postLikesId = postLikesId;
         this.postLikesUserName = postLikesUserName;
         this.postLikesUserId = postLikesUserId;

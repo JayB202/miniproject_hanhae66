@@ -40,8 +40,4 @@ public class Comment extends Timestamped {
     public void update(String content) {
         this.cmtContent = content;
     }
-//
-//    public void commentCountLikes(long likes) {
-//        this.commentLikes = likes;
-//    }
 }
