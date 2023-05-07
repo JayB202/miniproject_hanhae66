@@ -29,6 +29,7 @@ public class Hanghae66Application {
                 registry.addMapping("/**")
                         .allowedOriginPatterns()
                         .allowedOrigins("http://localhost:8080", "http://localhost:3000")
+                        .exposedHeaders("ACCESS_KEY");
             }
         };
     }
