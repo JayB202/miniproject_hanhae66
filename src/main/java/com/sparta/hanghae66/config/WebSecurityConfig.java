@@ -47,6 +47,7 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests().requestMatchers("/auth/**").permitAll()
+               // .requestMatchers("/post").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().accessDeniedPage("/auth/forbidden");
