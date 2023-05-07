@@ -24,7 +24,7 @@ public class UserRequestDto {
     @Size(min = 8, max = 15, message = "password는 8 이상, 15 이하만 가능합니다.")
     @Pattern(regexp = "^[a-zA-Z\\p{Punct}0-9]*$", message = "password는 알파벳 대소문자, 특수문자, 숫자만 가능합니다.")
     @NotNull(message = "password를 입력해주세요")
-    private String password;
+    private String userPassword;
 
     private boolean admin = false;
     private String adminToken = "";
