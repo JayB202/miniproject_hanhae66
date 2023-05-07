@@ -46,7 +46,7 @@ public class PostService {
     }
 
     //게시글 선택 조회 코멘트 보임
-    @Transactional(readOnly = true)
+    @Transactional
     public PostDto viewPost(Long postId) {
         Post post = findPost(postId);
 
@@ -57,19 +57,19 @@ public class PostService {
 
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
-        List<CommentDto> commentDtoList = getAllComment();  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
-        List<CommentDto> commentMatchDto = commentDtoList.stream()
-                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
-                .collect(Collectors.toList());
+        List<CommentDto> commentDtoList = getAllComment(postId);  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+//        List<CommentDto> commentMatchDto = commentDtoList.stream()
+//                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
+//                .collect(Collectors.toList());
 
-        postDto.setCommentList(commentMatchDto);
+        postDto.setCommentList(commentDtoList);
 
         return postDto;  // 리스트로해서 리스폰스  + 코네트리스폰스
     }
 
     @Transactional(readOnly = true)
-    public List<CommentDto> getAllComment() {
-        List<Comment> commentList = commentRepository.findAll();
+    public List<CommentDto> getAllComment(Long postId) {
+        List<Comment> commentList = commentRepository.findAllCommentById(postId);
         List<CommentDto> commentListDtoList = new ArrayList<>();
 
         for(Comment comment: commentList) {
