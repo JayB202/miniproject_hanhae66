@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity(name ="TB_POST")
 @NoArgsConstructor
 public class Post extends Timestamped{
     @Id
@@ -20,23 +20,34 @@ public class Post extends Timestamped{
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String postTitle;
 
     @Column(nullable = false)
-    private String title;
+    private String postContent;
 
     @Column(nullable = false)
-    private String contents;
+    private String postSkill;
 
-    @Column(nullable = false)
+    @Column
+    private String postFile;
+
+    @Column
     @ColumnDefault("0")
-    private Long postLikesCount;
-
+    private Long postLikes;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
-    private Long viewCount;
+    private String postUserId;
 
+    @Column(nullable = false)
+    private String postUserName;
+
+    @Column
+    @ColumnDefault("0")
+    private Long postVisitCnt;
+
+    @Column
+    @ColumnDefault("0")
+    private Long cmtCount;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
@@ -47,15 +58,13 @@ public class Post extends Timestamped{
     }
 
     public Post(PostRequestDto postRequestDto, String username){
-        this.title = postRequestDto.getTitle();
-        this.contents = postRequestDto.getContents();
-        this.username = username;
-
-
+        this.postTitle = postRequestDto.getTitle();
+        this.postContent = postRequestDto.getContents();
+        this.postUserName= username;
     }
 
     public void viewCountUp(Long id){
-        this.viewCount += 1;
+        this.postVisitCnt += 1;
     }
 
     public void update(PostRequestDto postRequestDto){
