@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class LikeService {
@@ -26,37 +24,39 @@ public class LikeService {
 
     @Transactional
     public ResponseDto postLikeService(Long postId, User user) {
-        Post post = postCheck(postId);
-
-        Optional<PostLikes> likesCheck = postLikesRepository.findByUsernameAndPostId(String.valueOf(user.getId()), postId);
-
-        if (likesCheck.isPresent()) {
-            PostLikes postLikes = postLikesCheck(String.valueOf(user.getId()), postId);
-            postLikes.postLikesUpdate(!likesCheck.get().isLikes());
-        } else {
-            PostLikes postLikes = new PostLikes(postId, user.getUsername(), true);
-            postLikesRepository.save(postLikes);
-        }
-        long likes = postLikesRepository.countByUsernameAndPostId(user.getUsername(), postId);
-        post.postCountLikes(likes);
+//        Post post = postCheck(postId);
+//
+//        Optional<PostLikes> likesCheck = postLikesRepository.findByUsernameAndPostId(String.valueOf(user.getId()), postId);
+//
+//        if (likesCheck.isPresent()) {
+//            PostLikes postLikes = postLikesCheck(String.valueOf(user.getId()), postId);
+//            boolean likeChk = post.getPostLikes();
+//            postLikes.setPostLikes(!likesCheck.get().isLikes());
+//        } else {
+//            PostLikes postLikes = new PostLikes(postId, user.getUsername(), true);
+//            postLikesRepository.save(postLikes);
+//        }
+//        long likes = postLikesRepository.countByUsernameAndPostId(user.getUsername(), postId);
+//        post.postCountLikes(likes);
 
         return new ResponseDto("좋아요!", HttpStatus.OK);
     }
 
     public ResponseDto commentLikeService(Long commentId, User user) {
-        Comment comment = commentCheck(commentId);
-
-        Optional<CommentLikes> likesCheck = commentLikesRepository.findByUsernameAndCommentId(String.valueOf(user.getId()), commentId);
-
-        if (likesCheck.isPresent()) {
-            CommentLikes commentLikes = commentLikesCheck(String.valueOf(user.getId()), commentId);
-            commentLikes.commentLikesUpdate(!likesCheck.get().isLikes());
-        } else {
-            CommentLikes commentLikes = new CommentLikes(commentId, user.getUsername(), true);
-            commentLikesRepository.save(commentLikes);
-        }
-        long likes = commentLikesRepository.countByUsernameAndCommentId(user.getUsername(), commentId);
-        comment.commentCountLikes(likes);
+//        Comment comment = commentCheck(commentId);
+//
+//        Optional<CommentLikes> likesCheck = commentLikesRepository.findByUsernameAndCommentId(String.valueOf(user.getId()), commentId);
+//
+//        if (likesCheck.isPresent()) {
+//            CommentLikes commentLikes = commentLikesCheck(String.valueOf(user.getId()), commentId);
+//            boolean likeChk = comment.getCmtLikes();
+//            commentLikes.setCmtLikes();
+//        } else {
+//            CommentLikes commentLikes = new CommentLikes(commentId, user.getUsername(), true);
+//            commentLikesRepository.save(commentLikes);
+//        }
+//        long likes = commentLikesRepository.countByUsernameAndCommentId(user.getUsername(), commentId);
+//        comment.commentCountLikes(likes);
 
 //        if(likesCheck.isPresent()) {
 //            postLikesRepository.update(likesCheck.get());
@@ -68,29 +68,33 @@ public class LikeService {
         return new ResponseDto("좋아요!", HttpStatus.OK);
     }
 
-    private CommentLikes commentLikesCheck(String username, Long commentId) {
-        return commentLikesRepository.findByUsernameAndCommentId(username, commentId).orElseThrow(
-                () -> new IllegalArgumentException("찾을 수 없는 좋아요 입니다.")
-        );
-    }
-
-    private Post postCheck(Long postId) {
-        return postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시물 입니다.")
-        );
-    }
-
-    private Comment commentCheck(Long commentId) {
-        return commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 댓글 입니다.")
-        );
-    }
-
-    private PostLikes postLikesCheck(String username, Long postId) {
-        return postLikesRepository.findByUsernameAndPostId(username, postId).orElseThrow(
-                () -> new IllegalArgumentException("찾을 수 없는 좋아요 입니다.")
-        );
-    }
+//    @Transactional(readOnly = true)
+//    public CommentLikes commentLikesCheck(String cmtLikesUserId, Long cmtLikesId) {
+//        return commentLikesRepository.findByCmtLikesUserIdAndCmtLikesId(cmtLikesUserId, cmtLikesId).orElseThrow(
+//                () -> new IllegalArgumentException("찾을 수 없는 좋아요 입니다.")
+//        );
+//    }
+//
+//    @Transactional
+//    public Post postCheck(Long postId) {
+//        return postRepository.findById(postId).orElseThrow(
+//                () -> new IllegalArgumentException("존재하지 않는 게시물 입니다.")
+//        );
+//    }
+//
+//    @Transactional
+//    public Comment commentCheck(Long commentId) {
+//        return commentRepository.findById(commentId).orElseThrow(
+//                () -> new IllegalArgumentException("존재하지 않는 댓글 입니다.")
+//        );
+//    }
+//
+//    @Transactional
+//    public PostLikes postLikesCheck(String username, Long postId) {
+//        return postLikesRepository.findByUsernameAndPostId(username, postId).orElseThrow(
+//                () -> new IllegalArgumentException("찾을 수 없는 좋아요 입니다.")
+//        );
+//    }
 }
 
 
