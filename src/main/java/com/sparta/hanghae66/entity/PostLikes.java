@@ -10,26 +10,24 @@ import lombok.NoArgsConstructor;
 public class PostLikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long postLikesNum;
 
     @Column(nullable = false)
-    private Long postId;          //댓글 고유 넘버
+    private Long postLikesId;
 
     @Column(nullable = false)
-    private String username;          //좋아요 누르는 사람
+    private String postLikesUserName;
 
     @Column(nullable = false)
     private boolean likes;          //좋아요 -> 한번더누르면 취소
 
 
-    public PostLikes(Long postId, String username, boolean likes) {
-        this.postId = postId;
-        this.username = username;
-        this.likes = likes;
-    }
-
-    public void postLikesUpdate(boolean likes) {
-        this.likes = likes;
+    public PostLikes(Long postLikesNum, Long postLikesId, String postLikesUserName, String postLikesUserId, boolean postLikes) {
+        this.postLikesNum = postLikesNum;
+        this.postLikesId = postLikesId;
+        this.postLikesUserName = postLikesUserName;
+        this.postLikesUserId = postLikesUserId;
+        this.postLikes = postLikes;
     }
 
 }
