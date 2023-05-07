@@ -58,14 +58,15 @@ public class Post extends Timestamped{
         comment.setPost(this);
     }
 
-    public Post(PostRequestDto postRequestDto, String username){
+    public Post(PostRequestDto postRequestDto, String username, String userId, String postSkill){
         this.postTitle = postRequestDto.getTitle();
         this.postContent = postRequestDto.getContents();
         this.postUserName= username;
-    }
-
-    public void viewCountUp(Long id){
-        this.postVisitCnt += 1;
+        this.postUserId = userId;
+        this.postSkill = postSkill;
+        this.postVisitCnt = 0L;
+        this.postLikes = 0L;
+        this.cmtCount = 0L;
     }
 
     public void update(PostRequestDto postRequestDto){

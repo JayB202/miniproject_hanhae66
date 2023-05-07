@@ -61,8 +61,8 @@ public class JwtUtil {
     }
 
     // 액세스 토큰 및 리프레시 토큰 생성
-    public TokenDto createAllToken(String username, UserRole role) {
-        return new TokenDto(createToken(username, role, "Access"), createToken(username, role, "Refresh"));
+    public TokenDto createAllToken(String userId, UserRole role) {
+        return new TokenDto(createToken(userId, role, "Access"), createToken(userId, role, "Refresh"));
     }
 
     // Request Header 에서 토큰 가져오기

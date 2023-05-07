@@ -42,7 +42,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Post findPost(Long postId) {
-        return postRepository.findById(postId).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
+        return postRepository.findByPostId(postId).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
     }
 
     //게시글 선택 조회 코멘트 보임
@@ -50,7 +50,9 @@ public class PostService {
     public PostDto viewPost(Long postId) {
         Post post = findPost(postId);
 
-        post.viewCountUp(postId);
+        Long visitCnt = post.getPostVisitCnt();
+        visitCnt++;
+        post.setPostVisitCnt(visitCnt);
         postRepository.save(post);
 
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
@@ -81,10 +83,11 @@ public class PostService {
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user.getUserName());
+        Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill());
         postRepository.save(post);
-        return new PostResponseDto();
-
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        postResponseDto.setCreatedAt(post.getCreatedAt());
+        return postResponseDto;
     }
 
     @Transactional
