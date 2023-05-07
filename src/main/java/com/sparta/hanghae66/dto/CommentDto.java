@@ -9,15 +9,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentDto {
-    private Long commentId;
-    private String userId;
-    private String content;
-    private Long commentLikes;
+
+    private Long cmtId;
+
+    private String cmtContent;
+
+    private Long cmtLikes;
+
+    private String cmtUserId;
+
+    private String cmtUserName;
 
     public CommentDto(Comment comment) {
-        this.commentId = comment.getCommentId();
-        this.userId = comment.getUserId();
-        this.content = comment.getContent();
-        this.commentLikes = comment.getCommentLikes();
+        this.cmtId = comment.getCmtId();
+        this.cmtContent = comment.getCmtContent();
+        this.cmtLikes = comment.getCmtLikes();
+        this.cmtUserId = comment.getCmtUserId();
+        this.cmtUserName = comment.getCmtUserName();
     }
 }
