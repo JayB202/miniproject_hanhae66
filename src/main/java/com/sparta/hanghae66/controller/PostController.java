@@ -7,10 +7,6 @@ import com.sparta.hanghae66.dto.ResponseDto;
 import com.sparta.hanghae66.security.UserDetailsImpl;
 import com.sparta.hanghae66.service.LikeService;
 import com.sparta.hanghae66.service.PostService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,49 +16,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
-@Tag(name = "PostController", description = "게시글 Controller")
 public class PostController {
     private final PostService postService;
     private final LikeService likeService;
 
-    @Operation(summary = "게시글 목록 조회 API", description = "게시글 목록을 조회")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "게시글 저장 완료")})
-    @GetMapping("/")
+    @GetMapping("/post")
     public List<PostDto> viewPostList(){
         return postService.viewPostList();
     }
 
-    @Operation(summary = "게시글 상세 조회", description = "게시글을 조회")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "게시글 저장 완료"),
-            @ApiResponse(responseCode = "403", description = "로그인이 필요 합니다.")})
-    @GetMapping("/{postId}")
+    @GetMapping("/post/{postId}")
     public PostDto viewPost(@PathVariable Long postId){
         return postService.viewPost(postId);
     }
 
-    @Operation(summary = "게시글 생성 API", description = "게시글을 생성")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "게시글 저장 완료"),
-            @ApiResponse(responseCode = "403", description = "로그인이 필요 합니다.")})
-    @PostMapping("/")
-    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetailsImplement){
-        return postService.createPost(postRequestDto, userDetailsImplement.getUser());
+    @PostMapping("/post")
+    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("postRequestDto = " + postRequestDto.getTitle());
+        System.out.println("userDetails = " + userDetails.getUser().getUserName());
+        return postService.createPost(postRequestDto, userDetails.getUser());
     }
 
-    @Operation(summary = "게시글 생성 API", description = "게시글을 생성")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "게시글 저장 완료"),
-            @ApiResponse(responseCode = "403", description = "로그인이 필요 합니다.")})
-    @PutMapping("/{postId}")
-    public PostResponseDto updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetailsImplement){
-        return postService.updatePost(postId, postRequestDto, userDetailsImplement.getUser());
+    @PutMapping("/post/{postId}")
+    public PostResponseDto updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.updatePost(postId, postRequestDto, userDetails.getUser());
     }
 
-
-    @Operation(summary = "게시글 생성 API", description = "게시글을 생성")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "게시글 저장 완료"),
-            @ApiResponse(responseCode = "403", description = "로그인이 필요 합니다.")})
-    @DeleteMapping("/{postId}")
-    public ResponseDto deletePost(@PathVariable Long postId,  @AuthenticationPrincipal UserDetailsImpl userDetailsImplement){
-        return postService.deletePost(postId, userDetailsImplement.getUser());
+    @DeleteMapping("/post/{postId}")
+    public ResponseDto deletePost(@PathVariable Long postId,  @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.deletePost(postId, userDetails.getUser());
 
     }
 
