@@ -10,18 +10,41 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class PostResponseDto {
-    private Long id;
-    private String title;
-    private String contents;
-    private Long postLikesCount;
+
+    private Long postId;
+
+    private String postTitle;
+
+    private String postContent;
+
+    private String postSkill;
+
+    private String postFile;
+
+    private Long postLikes;
+
+    private String postUserId;
+
+    private String postUserName;
+
+    private Long postVisitCnt;
+
+    private Long cmtCount;
+
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Long id, String title, String contents, Long postLikesCount) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.postLikesCount = postLikesCount;
+    public PostResponseDto(Long postId, String postTitle, String postContent, String postSkill, String postFile, Long postLikes, String postUserId, String postUserName, Long postVisitCnt, Long cmtCount) {
+        this.postId = postId;
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.postSkill = postSkill;
+        this.postFile = postFile;
+        this.postLikes = postLikes;
+        this.postUserId = postUserId;
+        this.postUserName = postUserName;
+        this.postVisitCnt = postVisitCnt;
+        this.cmtCount = cmtCount;
     }
 
     public void setCreatedTime(LocalDateTime createdAt){
