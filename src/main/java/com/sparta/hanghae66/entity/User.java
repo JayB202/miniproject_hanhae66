@@ -13,10 +13,16 @@ public class User extends Timestamped {
     private String id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String userName;
 
     @Column(nullable = false)
-    private String password;
+    private String userPassword;
+
+    @Column(nullable = false)
+    private Long userYear;
+
+    @Column(nullable = false)
+    private String userSkill;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)

@@ -29,7 +29,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional
     public ResponseDto signup(UserRequestDto requestDto) {
         String userId = requestDto.getUserId();
         String userName = requestDto.getUserName();
@@ -51,39 +51,38 @@ public class UserService {
             role = UserRole.ADMIN;
         }
 
-        User user = new User(username, password, role, userSkill, userYear);
+        User user = new User(userId, userName, userPassword, userYear, userSkill, role);
 
         userRepository.save(user);
 
-
-        return new ResponseDto("Success", HttpStatus.OK);
+        return new ResponseDto("회원가입이 성공했습니다.", HttpStatus.OK);
     }
 
 
     @Transactional
     public ResponseDto login(UserRequestDto requestDto, jakarta.servlet.http.HttpServletResponse response) {
 
-        String username = requestDto.getUsername();
-        String password = requestDto.getPassword();
+        String userId = requestDto.getUserId();
+        String userPassword = requestDto.getPassword();
 //        String test = passwordEncoder.encode(password);
 
         try {
-            User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+            User user = userRepository.findByUserId(userId).orElseThrow(
                     () -> new IllegalArgumentException("없는 ID 입니다.")
             );
 //            String test2 = user.getPassword();
 
             // 비밀번호 확인
-            if(!passwordEncoder.matches(password, user.getPassword())){
+            if(!passwordEncoder.matches(userPassword, user.getUserPassword())){
                 return new ResponseDto("비밀번호를 확인해주세요!!", HttpStatus.BAD_REQUEST);
             }
 
 
             //username (ID) 정보로 Token 생성
-            TokenDto tokenDto = jwtUtil.createAllToken(requestDto.getUsername(), user.getRole());
+            TokenDto tokenDto = jwtUtil.createAllToken(requestDto.getUserId(), user.getRole());
 
             //Refresh 토큰 있는지 확인
-            Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUsername(requestDto.getUsername());
+            Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserId(requestDto.getUserId());
 
             //Refresh 토큰이 있다면 새로 발급 후 업데이트
             //없다면 새로 만들고 DB에 저장

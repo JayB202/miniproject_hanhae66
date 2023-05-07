@@ -3,9 +3,12 @@ package com.sparta.hanghae66.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
-@Entity
+@Setter
+@Entity(name = "TB_POSTLIKES")
 @NoArgsConstructor
 public class PostLikes {
     @Id
@@ -19,7 +22,10 @@ public class PostLikes {
     private String postLikesUserName;
 
     @Column(nullable = false)
-    private boolean likes;          //좋아요 -> 한번더누르면 취소
+    private String postLikesUserId;
+
+    @ColumnDefault("false")
+    private boolean postLikes;
 
 
     public PostLikes(Long postLikesNum, Long postLikesId, String postLikesUserName, String postLikesUserId, boolean postLikes) {

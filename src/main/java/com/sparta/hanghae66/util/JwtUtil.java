@@ -76,13 +76,13 @@ public class JwtUtil {
     }
 
     // JWT 생성하기
-    public String createToken(String username, UserRole role, String type) {
+    public String createToken(String userId, UserRole role, String type) {
         Date date = new Date();
         Date exprTime = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
 
         return BEARER_PREFIX
                 + Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .claim(AUTHORIZATION_KEY, role)
                 .setIssuedAt(date)

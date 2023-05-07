@@ -28,6 +28,7 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
 
+    //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
     public List<PostDto> viewPostList(){
         List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
@@ -53,10 +54,10 @@ public class PostService {
         postRepository.save(post);
 
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
-        List<CommentDto> commentDtoList = getAllComment();  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
         PostDto postDto = new PostDto(post);
+        List<CommentDto> commentDtoList = getAllComment();  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
         List<CommentDto> commentMatchDto = commentDtoList.stream()
-                .filter(t -> Objects.equals(t.getCommentId(), postId))
+                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
                 .collect(Collectors.toList());
 
         postDto.setCommentList(commentMatchDto);
@@ -94,9 +95,9 @@ public class PostService {
 
             switch (userRole) {
                 case USER:
-                    if(StringUtils.pathEquals(post.getUsername(), user.getUsername())) {
+                    if(StringUtils.pathEquals(post.getPostUserId(), user.getId())) {
                         post.update(postRequestDto);
-                        PostResponseDto postResponseDto = new PostResponseDto(post.getId(), post.getTitle(), post.getUsername(), post.getPostLikesCount());
+                        PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
                         postResponseDto.setModifiedTime(post.getModifiedAt());
                         return postResponseDto;
                     }
@@ -122,9 +123,8 @@ public class PostService {
 
             switch (userRole){
                 case USER :
-                    if(StringUtils.pathEquals(post.getUsername(), user.getUsername())){
+                    if(StringUtils.pathEquals(post.getPostUserId(), user.getId())){
                         postRepository.deleteById(postId);
-
                         return new ResponseDto("삭제완료", HttpStatus.OK);
                     }
                 case ADMIN:

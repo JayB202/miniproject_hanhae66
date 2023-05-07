@@ -7,7 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
-@Entity
+@Setter
+@Entity(name = "TB_CMTLIKES")
 @NoArgsConstructor
 public class CommentLikes {
 
@@ -22,10 +23,10 @@ public class CommentLikes {
     private String cmtLikesUserName;
 
     @Column(nullable = false)
-    private boolean likes;          //좋아요 -> 한번더누르면 취소
+    private String cmtLikesUserId;
 
-    @Column(nullable = false)
-    private Long postId;            //글 고유 넘버
+    @ColumnDefault("false")
+    private boolean cmtLikes;
 
 //    public CommentLikes(Long commentId, String userName, boolean likes, Long postId) {
 //        this.commentId = commentId;
@@ -46,8 +47,5 @@ public class CommentLikes {
         this.cmtLikesUserId = cmtLikesUserId;
         this.cmtLikes = cmtLikes;
     }
-
-    public void commentLikesUpdate(boolean likes) {
-        this.likes = likes;
-    }
 }
+

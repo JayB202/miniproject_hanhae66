@@ -84,10 +84,10 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-        public List<Comment> myCommentList(User user) {
-            List<Comment> commentList = commentRepository.findByCommentUserId(user.getId());
-            return commentList;
-        }
+    public List<Comment> myCommentList(User user) {
+        List<Comment> commentList = commentRepository.findByCommentUserId(user.getId());
+        return commentList;
+    }
 
     @Transactional(readOnly = true)
     public Post findPost(Long postId) {
