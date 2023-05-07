@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +33,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseDto login(@RequestBody UserRequestDto requestDto, jakarta.servlet.http.HttpServletResponse response) {
         return userService.login(requestDto, response);
+    }
+
+    @PostMapping("/userCheck/{userId}")
+    public ResponseDto userCheck(@PathVariable String userId) {
+        return userService.userCheck(userId);
     }
 }
