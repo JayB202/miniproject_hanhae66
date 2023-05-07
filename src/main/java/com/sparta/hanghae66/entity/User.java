@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Entity(name="USERS")
+@Entity(name="TB_USER")
 @NoArgsConstructor
 public class User extends Timestamped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "userId", nullable = false, unique = true)
+    private String id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -22,19 +22,14 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
-    @Column(nullable = false)
-    private int userSkill;
 
-    @Column(nullable = false)
-    private int userYear;
-
-    public User(String username, String password, UserRole role, int userSkill, int userYear) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.userSkill = userSkill;
+    public User(String id, String userName, String userPassword, Long userYear, String userSkill, UserRole role) {
+        this.id = id;
+        this.userName = userName;
+        this.userPassword = userPassword;
         this.userYear = userYear;
-
+        this.userSkill = userSkill;
+        this.role = role;
     }
 
 }
