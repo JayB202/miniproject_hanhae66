@@ -33,7 +33,7 @@ public class UserService {
     public ResponseDto signup(UserRequestDto requestDto) {
         String userId = requestDto.getUserId();
         String userName = requestDto.getUserName();
-        String userPassword = passwordEncoder.encode(requestDto.getPassword());
+        String userPassword = passwordEncoder.encode(requestDto.getUserPassword());
         String userSkill = requestDto.getUserSkill();
         Long userYear = requestDto.getUserYear();
 
@@ -63,7 +63,7 @@ public class UserService {
     public ResponseDto login(UserRequestDto requestDto, jakarta.servlet.http.HttpServletResponse response) {
 
         String userId = requestDto.getUserId();
-        String userPassword = requestDto.getPassword();
+        String userPassword = requestDto.getUserPassword();
 //        String test = passwordEncoder.encode(password);
 
         try {
