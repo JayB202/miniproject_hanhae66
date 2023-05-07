@@ -21,7 +21,8 @@ public class Hanghae66Application {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry){
-                registry.addMapping("/**").allowedOriginPatterns();
+                registry.addMapping("/**").allowedOrigins("http://localhost:8080", "http://localhost:3000")
+                        .exposedHeaders("ACCESS_KEY");
             }
         };
     }

@@ -81,6 +81,8 @@ public class UserService {
             //username (ID) 정보로 Token 생성
             TokenDto tokenDto = jwtUtil.createAllToken(requestDto.getUserId(), user.getRole());
 
+
+
             //Refresh 토큰 있는지 확인
             Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserId(requestDto.getUserId());
 
@@ -103,7 +105,6 @@ public class UserService {
             return new ResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     private void setHeader(jakarta.servlet.http.HttpServletResponse response, String accessToken) {
         response.addHeader(ACCESS_KEY, accessToken);
