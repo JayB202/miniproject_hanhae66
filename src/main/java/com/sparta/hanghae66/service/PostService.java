@@ -40,10 +40,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Post findPost(Long id) {
-        return postRepository.findById(id).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
+    public Post findPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
     }
 
+    //게시글 선택 조회 코멘트 보임
     @Transactional(readOnly = true)
     public PostDto viewPost(Long postId) {
         Post post = findPost(postId);
@@ -79,7 +80,7 @@ public class PostService {
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user.getUsername());
+        Post post = new Post(postRequestDto, user.getUserName());
         postRepository.save(post);
         return new PostResponseDto();
 
@@ -101,7 +102,7 @@ public class PostService {
                     }
                 case ADMIN:
                     post.update(postRequestDto);
-                    PostResponseDto postResponseDto = new PostResponseDto(post.getId(), post.getTitle(), post.getUsername(), post.getPostLikesCount());
+                    PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
                     postResponseDto.setModifiedTime(post.getModifiedAt());
                     return postResponseDto;
                 default:
