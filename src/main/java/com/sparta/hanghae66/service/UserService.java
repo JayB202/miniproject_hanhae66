@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -30,14 +31,13 @@ public class UserService {
 
 
     public ResponseDto signup(UserRequestDto requestDto) {
+        String userId = requestDto.getUserId();
+        String userName = requestDto.getUserName();
+        String userPassword = passwordEncoder.encode(requestDto.getPassword());
+        String userSkill = requestDto.getUserSkill();
+        Long userYear = requestDto.getUserYear();
 
-        String username = requestDto.getUsername();
-        String password = passwordEncoder.encode(requestDto.getPassword());
-
-        int userSkill = requestDto.getUserSkill();
-        int userYear = requestDto.getUserYear();
-
-        Optional<User> found = userRepository.findByUsername(requestDto.getUsername());
+        Optional<User> found = userRepository.findByUserId(userId);
 
         if (found.isPresent()) {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
@@ -60,6 +60,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public ResponseDto login(UserRequestDto requestDto, jakarta.servlet.http.HttpServletResponse response) {
 
         String username = requestDto.getUsername();
@@ -91,7 +92,7 @@ public class UserService {
                 RefreshToken updateToken = savedRefreshToken.updateToken(tokenDto.getRefreshToken().substring(7));
                 refreshTokenRepository.save(updateToken);
             } else {
-                RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken().substring(7), username);
+                RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken().substring(7), userId);
                 refreshTokenRepository.save(newToken);
             }
 
@@ -109,4 +110,15 @@ public class UserService {
         response.addHeader(REFRESH_KEY, tokenDto.getRefreshToken());
     }
 
+    @Transactional(readOnly = true)
+    public ResponseDto userCheck(String userId) {
+        Optional<User> found = userRepository.findByUserId(userId);
+
+        if (found.isPresent()) {
+            return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return new ResponseDto("사용가능한 아이디 입니다.", HttpStatus.OK);
+        }
+    }
 }
