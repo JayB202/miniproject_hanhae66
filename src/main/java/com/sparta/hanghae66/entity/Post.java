@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ import java.util.List;
 public class Post extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
     @Column(nullable = false)
     private String postTitle;
@@ -68,12 +69,12 @@ public class Post extends Timestamped{
     }
 
     public void update(PostRequestDto postRequestDto){
-        this.title = postRequestDto.getTitle();
-        this.contents = postRequestDto.getContents();
+        this.postTitle = postRequestDto.getTitle();
+        this.postContent = postRequestDto.getContents();
     }
-
-    public void postCountLikes(long likes) {
-        this.postLikesCount = likes;
-    }
+//
+//    public void postCountLikes(long likes) {
+//        this.postLikesCount = likes;
+//    }
 
 }

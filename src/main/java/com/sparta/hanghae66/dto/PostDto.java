@@ -45,5 +45,4 @@ public class PostDto {
         this.postVisitCnt = post.getPostVisitCnt();
         this.cmtCount = post.getCmtCount();
     }
-
 }

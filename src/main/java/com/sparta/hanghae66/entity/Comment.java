@@ -9,7 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "TB_COMMENT")
 @NoArgsConstructor
 public class Comment extends Timestamped {
     @Id
@@ -19,11 +19,14 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String cmtContent;
 
-    @Column(nullable = false)
-    private String content;
-
     @ColumnDefault("0")
-    private Long commentLikes;
+    private Long cmtLikes;
+
+    @Column(nullable = false)
+    private String cmtUserId;
+
+    @Column(nullable = false)
+    private String cmtUserName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
@@ -35,10 +38,10 @@ public class Comment extends Timestamped {
     }
 
     public void update(String content) {
-        this.content = content;
+        this.cmtContent = content;
     }
-
-    public void commentCountLikes(long likes) {
-        this.commentLikes = likes;
-    }
+//
+//    public void commentCountLikes(long likes) {
+//        this.commentLikes = likes;
+//    }
 }
