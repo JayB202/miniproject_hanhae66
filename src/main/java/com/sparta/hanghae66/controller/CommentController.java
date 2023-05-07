@@ -2,6 +2,7 @@ package com.sparta.hanghae66.controller;
 
 import com.sparta.hanghae66.dto.CommentRequestDto;
 import com.sparta.hanghae66.dto.ResponseDto;
+import com.sparta.hanghae66.entity.Comment;
 import com.sparta.hanghae66.security.UserDetailsImpl;
 import com.sparta.hanghae66.service.CommentService;
 import com.sparta.hanghae66.service.LikeService;
