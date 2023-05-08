@@ -36,7 +36,7 @@ public class LikeService {
             postLikes.setPostLikes(!likeChk);
             postLikesRepository.save(postLikes);
         } else {
-            PostLikes postLikes = new PostLikes(post.getPostId(), post.getPostUserName(), post.getPostUserId(), true);
+            PostLikes postLikes = new PostLikes(post.getPostId(), user.getUserName(), user.getId(), true);
             postLikesRepository.save(postLikes);
         }
         long likes = postLikesRepository.getPostLikesCount(postId);
@@ -58,7 +58,7 @@ public class LikeService {
             commentLikes.setCmtLikes(!likeChk);
             commentLikesRepository.save(commentLikes);
         } else {
-            CommentLikes commentLikes = new CommentLikes(comment.getCmtId(), comment.getCmtUserName(), comment.getCmtUserId(), true);
+            CommentLikes commentLikes = new CommentLikes(comment.getCmtId(), user.getUserName(), user.getId(), true);
             commentLikesRepository.save(commentLikes);
         }
         long likes = commentLikesRepository.getCmtLikesCount(user.getId(), commentId);

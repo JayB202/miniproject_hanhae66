@@ -35,8 +35,8 @@ public class CommentController {
     }
 
     @PostMapping("like/{commentId}")
-    public ResponseDto commentLikeService(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetailsImplement) {
-        return likeService.commentLikeService(commentId, userDetailsImplement.getUser());
+    public ResponseDto commentLikeService(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return likeService.commentLikeService(commentId, userDetails.getUser());
     }
 
 }
