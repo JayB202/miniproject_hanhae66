@@ -46,12 +46,12 @@ public class CommentService {
             switch (userRole) {
                 case USER:
                     if (StringUtils.pathEquals(comment.getCmtUserId(), user.getId())) {
-                        comment.update(commentRequestDto.getCmtContent());
+                        comment.update(commentRequestDto.getComment());
                         commentRepository.save(comment);
                         return new ResponseDto("댓글 수정완료", HttpStatus.OK);
                     }
                 case ADMIN:
-                    comment.update(commentRequestDto.getCmtContent());
+                    comment.update(commentRequestDto.getComment());
                     commentRepository.save(comment);
                     return new ResponseDto("댓글 수정완료", HttpStatus.OK);
                 default:
