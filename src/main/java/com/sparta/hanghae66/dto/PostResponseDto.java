@@ -37,7 +37,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Long postId, String postTitle, String postContent, String postSkill, String postFile, Long postLikes, String postUserId, String postUserName, Long postVisitCnt, Long cmtCount) {
+    public PostResponseDto(Long postId, String postTitle, String postContent, String postSkill,  String postFile, Long postLikes, String postUserId, String postUserName, Long postVisitCnt, Long cmtCount) {
         this.postId = postId;
         this.postTitle = postTitle;
         this.postContent = postContent;
