@@ -28,6 +28,7 @@ public class Hanghae66Application {
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
                         .allowedOriginPatterns()
+                        .allowedMethods("GET", "POST", "PUT ", "DELETE", "HEAD", "PATCH")
 //                        .allowedOrigins("http://localhost:8080", "http://localhost:3000")
                         .allowedOrigins("*")
                         .exposedHeaders("ACCESS_KEY");
