@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity(name="TB_USER")
 @NoArgsConstructor
-public class User extends Timestamped {
+public class User extends UserDate {
     @Id
     @Column(name = "userId", nullable = false, unique = true)
     private String id;
