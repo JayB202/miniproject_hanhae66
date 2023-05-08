@@ -20,6 +20,8 @@ public class PostResponseDto {
 
     private String postSkill;
 
+    private String userSkill;
+
     private String postFile;
 
     private Long postLikes;

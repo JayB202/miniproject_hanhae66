@@ -36,6 +36,7 @@ public class Comment extends Timestamped {
         this.cmtContent = content;
         this.cmtUserName = userName;
         this.cmtUserId = userId;
+        this.cmtLikes = 0L;
      }
 
     public void update(String content) {
