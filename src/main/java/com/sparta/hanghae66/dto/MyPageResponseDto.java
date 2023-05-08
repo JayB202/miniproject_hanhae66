@@ -26,7 +26,7 @@ public class MyPageResponseDto {
         this.userName = user.getUserName();
         this.userSkill = user.getUserSkill();
         this.userYear = user.getUserYear();
-
+        this.userCrdat = user.getCreatedAt();
     }
 
 

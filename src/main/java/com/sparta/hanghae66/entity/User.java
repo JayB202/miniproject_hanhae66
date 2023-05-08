@@ -29,6 +29,7 @@ public class User extends UserDate {
     private UserRole role;
 
 
+
     public User(String id, String userName, String userPassword, Long userYear, String userSkill, UserRole role) {
         this.id = id;
         this.userName = userName;
@@ -36,6 +37,7 @@ public class User extends UserDate {
         this.userYear = userYear;
         this.userSkill = userSkill;
         this.role = role;
+
     }
 
 }
