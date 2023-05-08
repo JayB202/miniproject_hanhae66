@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -33,6 +34,9 @@ public class PostDto {
 
     private Long cmtCount;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
     private List<CommentDto> commentList;
 
     public PostDto(Post post) {
@@ -47,5 +51,7 @@ public class PostDto {
         this.postUserName = post.getPostUserName();
         this.postVisitCnt = post.getPostVisitCnt();
         this.cmtCount = post.getCmtCount();
+        this.createdAt = post.getCreatedAt();
+        this.modifiedAt = post.getModifiedAt();
     }
 }

@@ -43,8 +43,9 @@ public class UserService {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
         }
 
+        String userRole = requestDto.getUserRole();
         UserRole role = UserRole.USER;
-        if (requestDto.isAdmin()) {
+        if (userRole == "ADMIN") {
             if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }

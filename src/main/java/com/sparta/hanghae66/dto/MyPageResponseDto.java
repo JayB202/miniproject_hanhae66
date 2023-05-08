@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -16,15 +16,18 @@ public class MyPageResponseDto {
     private String userName;
     private String userSkill;
     private Long userYear;
-    private LocalDateTime userCrdat;
+    private LocalDate userCrdat;
     private List<PostDto> postList;
     private List<CommentDto> commentList;
+
 
     public MyPageResponseDto(User user){
         this.userId = user.getId();
         this.userName = user.getUserName();
         this.userSkill = user.getUserSkill();
         this.userYear = user.getUserYear();
-
+        this.userCrdat = user.getCreatedAt();
     }
+
+
 }

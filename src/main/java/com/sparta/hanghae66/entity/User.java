@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity(name="TB_USER")
 @NoArgsConstructor
-public class User extends Timestamped {
+public class User extends UserDate {
     @Id
     @Column(name = "userId", nullable = false, unique = true)
     private String id;
@@ -29,6 +29,7 @@ public class User extends Timestamped {
     private UserRole role;
 
 
+
     public User(String id, String userName, String userPassword, Long userYear, String userSkill, UserRole role) {
         this.id = id;
         this.userName = userName;
@@ -36,6 +37,7 @@ public class User extends Timestamped {
         this.userYear = userYear;
         this.userSkill = userSkill;
         this.role = role;
+
     }
 
 }
