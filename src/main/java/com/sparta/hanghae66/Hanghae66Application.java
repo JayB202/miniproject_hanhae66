@@ -26,7 +26,7 @@ public class Hanghae66Application {
                 registry.addMapping("/**")
                         .allowedOriginPatterns()
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "PATCH")
-                        .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000","http://3.35.24.185:8080")
+                        .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000")
                         //.allowedOrigins("*")
                         //.allowCredentials(true)
                         .exposedHeaders("ACCESS_KEY", "Authorization");
