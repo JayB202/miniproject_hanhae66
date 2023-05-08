@@ -33,10 +33,11 @@ public class PostService {
     public List<PostDto> viewPostList(){
         List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
         List<PostDto> postListDtoList = new ArrayList<>();
+        Long cmtSize = 0L;
         for(Post post: postList) {
             PostDto postDto = new PostDto(post);
-            Long test = Long.valueOf(post.getCommentList().size());
-            postDto.setCmtCount(test);
+            cmtSize = Long.valueOf(post.getCommentList().size());
+            postDto.setCmtCount(cmtSize);
             postListDtoList.add(postDto);
         }
         return postListDtoList; // 리스트로
