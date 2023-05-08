@@ -50,10 +50,10 @@ public class LikeService {
     public ResponseDto commentLikeService(Long commentId, User user) {
         Comment comment = commentCheck(commentId);
 
-        Optional<CommentLikes> likesCheck = commentLikesRepository.findByCmtLikesUserIdAndCmtLikesId(comment.getCmtUserId(), commentId);
+        Optional<CommentLikes> likesCheck = commentLikesRepository.findByCmtLikesUserIdAndCmtLikesId(user.getId(), commentId);
 
         if (likesCheck.isPresent()) {
-            CommentLikes commentLikes = commentLikesCheck(comment.getCmtUserId(), commentId);
+            CommentLikes commentLikes = commentLikesCheck(user.getId(), commentId);
             boolean likeChk = commentLikes.isCmtLikes();
             commentLikes.setCmtLikes(!likeChk);
             commentLikesRepository.save(commentLikes);
@@ -61,7 +61,7 @@ public class LikeService {
             CommentLikes commentLikes = new CommentLikes(comment.getCmtId(), comment.getCmtUserName(), comment.getCmtUserId(), true);
             commentLikesRepository.save(commentLikes);
         }
-        long likes = commentLikesRepository.getCmtLikesCount(commentId);
+        long likes = commentLikesRepository.getCmtLikesCount(user.getId(), commentId);
         comment.setCmtLikes(likes);
         commentRepository.save(comment);
         return new ResponseDto("좋아요!", HttpStatus.OK);
