@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostRequestDto {
-    private String title;
-    private String contents;
+    private String postTitle;
+    private String postContent;
+
+    private String postSkill;
 }

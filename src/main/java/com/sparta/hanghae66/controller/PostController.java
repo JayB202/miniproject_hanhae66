@@ -31,7 +31,7 @@ public class PostController {
 
     @PostMapping("/post")
     public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println("postRequestDto = " + postRequestDto.getTitle());
+        System.out.println("postRequestDto = " + postRequestDto.getPostTitle());
         System.out.println("userDetails = " + userDetails.getUser().getUserName());
         return postService.createPost(postRequestDto, userDetails.getUser());
     }

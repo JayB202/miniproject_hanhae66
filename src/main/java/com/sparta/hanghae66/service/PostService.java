@@ -86,6 +86,7 @@ public class PostService {
         Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill());
         postRepository.save(post);
         PostResponseDto postResponseDto = new PostResponseDto(post);
+        postResponseDto.setUserSkill(user.getUserSkill());
         postResponseDto.setCreatedAt(post.getCreatedAt());
         return postResponseDto;
     }
