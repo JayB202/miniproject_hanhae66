@@ -35,6 +35,8 @@ public class PostService {
         List<PostDto> postListDtoList = new ArrayList<>();
         for(Post post: postList) {
             PostDto postDto = new PostDto(post);
+            Long test = Long.valueOf(post.getCommentList().size());
+            postDto.setCmtCount(test);
             postListDtoList.add(postDto);
         }
         return postListDtoList; // 리스트로
@@ -49,15 +51,20 @@ public class PostService {
     @Transactional
     public PostDto viewPost(Long postId) {
         Post post = findPost(postId);
-
-        Long visitCnt = post.getPostVisitCnt();
-        visitCnt++;
-        post.setPostVisitCnt(visitCnt);
-        postRepository.save(post);
-
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
         List<CommentDto> commentDtoList = getAllComment(postId);  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+
+        //조회수, 댓글수 여기서 매핑해서 저장함(개별조회에서 최신화됨)
+        Long visitCnt = post.getPostVisitCnt();
+        visitCnt++;
+        post.setPostVisitCnt(visitCnt);
+
+        Long cmtCnt = Long.valueOf(commentDtoList.size());
+        post.setCmtCount(cmtCnt);
+        postDto.setCmtCount(cmtCnt);
+        postRepository.save(post);
+
 //        List<CommentDto> commentMatchDto = commentDtoList.stream()
 //                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
 //                .collect(Collectors.toList());
