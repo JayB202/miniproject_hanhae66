@@ -25,8 +25,8 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public PostDto viewPost(@PathVariable Long postId){
-        return postService.viewPost(postId);
+    public PostDto viewPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return postService.viewPost(postId, userDetails.getUser());
     }
 
     @PostMapping("/post")

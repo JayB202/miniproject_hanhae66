@@ -2,10 +2,7 @@ package com.sparta.hanghae66.service;
 
 
 import com.sparta.hanghae66.dto.*;
-import com.sparta.hanghae66.entity.Comment;
-import com.sparta.hanghae66.entity.Post;
-import com.sparta.hanghae66.entity.User;
-import com.sparta.hanghae66.entity.UserRole;
+import com.sparta.hanghae66.entity.*;
 import com.sparta.hanghae66.repository.CommentRepository;
 import com.sparta.hanghae66.repository.PostLikesRepository;
 import com.sparta.hanghae66.repository.PostRepository;
@@ -18,6 +15,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -50,7 +48,7 @@ public class PostService {
 
     //게시글 선택 조회 코멘트 보임
     @Transactional
-    public PostDto viewPost(Long postId) {
+    public PostDto viewPost(Long postId, User user) {
         Post post = findPost(postId);
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
@@ -70,6 +68,9 @@ public class PostService {
 //                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
 //                .collect(Collectors.toList());
 
+        Boolean chkPostLikes = chkLikePost(postId, user.getId());
+        postDto.setChkpostLikes(chkPostLikes);
+
         postDto.setCommentList(commentDtoList);
 
         return postDto;  // 리스트로해서 리스폰스  + 코네트리스폰스
@@ -86,6 +87,18 @@ public class PostService {
         }
 
         return commentListDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean chkLikePost(Long postId, String userId) {
+        Optional<PostLikes> isLike = postLikesRepository.findByPostLikesUserIdAndPostLikesId(userId, postId);
+        if(isLike.isPresent())
+        {
+            PostLikes postLikes = postLikesRepository.findByUserId(postId, userId);
+            return postLikes.isPostLikes();
+        }
+        else
+            return false;
     }
 
 
