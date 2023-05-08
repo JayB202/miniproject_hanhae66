@@ -57,6 +57,7 @@ public class LikeService {
             boolean likeChk = commentLikes.isCmtLikes();
             commentLikes.setCmtLikes(!likeChk);
             commentLikesRepository.save(commentLikes);
+            commentLikesRepository.delete(commentLikes);
         } else {
             CommentLikes commentLikes = new CommentLikes(comment.getCmtId(), user.getUserName(), user.getId(), true);
             commentLikesRepository.save(commentLikes);
