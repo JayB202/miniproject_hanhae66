@@ -122,4 +122,14 @@ public class UserService {
             return new ResponseDto("사용가능한 아이디 입니다.", HttpStatus.OK);
         }
     }
+
+    @Transactional
+    public ResponseDto logOut(UserRequestDto requestDto) {
+        RefreshToken refreshToken = refreshTokenRepository.findByUserId(requestDto.getUserId())
+                .orElseThrow( () -> new IllegalArgumentException("리프레시 토큰 없습니다~"));
+
+        refreshTokenRepository.delete(refreshToken);
+
+        return new ResponseDto("로그아웃 성공", HttpStatus.OK);
+    }
 }

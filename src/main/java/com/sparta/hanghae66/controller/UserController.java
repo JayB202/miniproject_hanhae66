@@ -39,4 +39,9 @@ public class UserController {
     public ResponseDto userCheck(@PathVariable String userId) {
         return userService.userCheck(userId);
     }
+
+    @DeleteMapping("/logout")
+    public ResponseDto logOut(@RequestBody UserRequestDto requestDto) {
+        return userService.logOut(requestDto);
+    }
 }
