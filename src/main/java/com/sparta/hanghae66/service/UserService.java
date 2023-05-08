@@ -36,6 +36,7 @@ public class UserService {
         String userPassword = passwordEncoder.encode(requestDto.getUserPassword());
         String userSkill = requestDto.getUserSkill();
         Long userYear = requestDto.getUserYear();
+        String userRole = requestDto.getUserRole();
 
         Optional<User> found = userRepository.findByUserId(userId);
 
@@ -43,13 +44,15 @@ public class UserService {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
         }
 
-        String userRole = requestDto.getUserRole();
-        UserRole role = UserRole.USER;
-        if (userRole == "ADMIN") {
-            if (!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
+
+        UserRole role;
+        role = UserRole.USER;
+        if (userRole.equals("ADMIN")) {
             role = UserRole.ADMIN;
+            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
+                return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+            }
+
         }
 
         User user = new User(userId, userName, userPassword, userYear, userSkill, role);
