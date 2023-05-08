@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://hanghae66.c0q7tdzdm5qz.ap-northeast-2.rds.amazonaws.com:3306/hanghae66?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: hh66
+    password: leehyeongyu
+  thymeleaf:
+    cache: false
+
+jwt:
+  secret:
+    key: eyJzdWIiOiIyMDIzMDUwMzIzMDAiLCJuYW1lIjoiZG9uZ2t5dWxlZWlzbGVnZW5kIn0
