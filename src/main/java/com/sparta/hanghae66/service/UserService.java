@@ -9,7 +9,6 @@ import com.sparta.hanghae66.entity.UserRole;
 import com.sparta.hanghae66.repository.RefreshTokenRepository;
 import com.sparta.hanghae66.repository.UserRepository;
 import com.sparta.hanghae66.util.JwtUtil;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

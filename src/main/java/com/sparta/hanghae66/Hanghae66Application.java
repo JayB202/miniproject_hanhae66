@@ -24,13 +24,13 @@ public class Hanghae66Application {
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
-                        //.allowedOriginPatterns()
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "PATCH")
+                        .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000", "http://hanghae66.s3-website.ap-northeast-2.amazonaws.com")
                         .allowedOriginPatterns("*")
-                        //.allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000", "http://hanghae66.s3-website.ap-northeast-2.amazonaws.com/")
-                        //.allowedOrigins("*")
-                        //.allowCredentials(true)
-                        .exposedHeaders("ACCESS_KEY", "Authorization");
+                        .exposedHeaders("ACCESS_KEY", "Authorization")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "PATCH")
+                        //.allowedHeaders()
+                        .allowCredentials(true)
+                        .maxAge(3600);
 
             }
         };

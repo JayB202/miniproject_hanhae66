@@ -36,8 +36,9 @@ public class WebSecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
@@ -53,19 +54,29 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors().disable()//.and()
-                .httpBasic().disable();
-        //세션 기반 인증 방식 사용에 대한 내용 : 지금 사용하지 않으므로 비활성화 상태로 설정
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.csrf().disable()
+//                .cors().and() //.disable()
+//                .httpBasic().disable();
+//        //세션 기반 인증 방식 사용에 대한 내용 : 지금 사용하지 않으므로 비활성화 상태로 설정
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http.authorizeRequests().requestMatchers("/auth/**").permitAll()
+//                .requestMatchers(HttpMethod.GET, "/post").permitAll()
+//                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
+//                .anyRequest().authenticated()
+//                .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.exceptionHandling().accessDeniedPage("/auth/forbidden");
 
-        http.authorizeRequests().requestMatchers("/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/post").permitAll()
-                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
-                //.requestMatchers("http://hanghae66.s3-website.ap-northeast-2.amazonaws.com/").permitAll()
+        http
+                .cors().and()
+                .csrf().disable()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/post").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        http.exceptionHandling().accessDeniedPage("/auth/forbidden");
 
         return http.build();
     }
