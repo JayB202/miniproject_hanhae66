@@ -54,7 +54,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().and()
+                .cors().disable()//.and()
                 .httpBasic().disable();
         //세션 기반 인증 방식 사용에 대한 내용 : 지금 사용하지 않으므로 비활성화 상태로 설정
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -62,6 +62,7 @@ public class WebSecurityConfig {
         http.authorizeRequests().requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/post").permitAll()
                 .requestMatchers(PERMIT_URL_ARRAY).permitAll()
+                //.requestMatchers("http://hanghae66.s3-website.ap-northeast-2.amazonaws.com/").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().accessDeniedPage("/auth/forbidden");

@@ -35,7 +35,7 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public Comment(String content, String userName, String userId) {
+    public Comment(String content, String userName, String userId, Long cmtUserYear, Post post) {
         this.cmtContent = content;
         this.cmtUserName = userName;
         this.cmtUserId = userId;

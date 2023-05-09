@@ -24,9 +24,10 @@ public class Hanghae66Application {
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
-                        .allowedOriginPatterns()
+                        //.allowedOriginPatterns()
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "PATCH")
-                        .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000")
+                        .allowedOriginPatterns("*")
+                        //.allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000", "http://hanghae66.s3-website.ap-northeast-2.amazonaws.com/")
                         //.allowedOrigins("*")
                         //.allowCredentials(true)
                         .exposedHeaders("ACCESS_KEY", "Authorization");
