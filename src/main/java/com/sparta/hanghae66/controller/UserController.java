@@ -37,7 +37,7 @@ public class UserController {
 
 
     @GetMapping("/userCheck/{userId}")
-    public ResponseDto userCheck(@PathVariable String userId) {
+    public ResponseDto userCheck(@Valid @PathVariable String userId) {
         return userService.userCheck(userId);
     }
 
