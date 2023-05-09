@@ -26,7 +26,7 @@ public class UserRequestDto {
     @NotNull(message = "password를 입력해주세요")
     private String userPassword;
 
-    private String userRole ="USER";
+    private String userRole;
     private String adminToken = "";
 
     private String userSkill;

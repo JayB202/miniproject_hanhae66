@@ -41,6 +41,8 @@ public class PostService {
         return postListDtoList; // 리스트로
     }
 
+   
+
     @Transactional(readOnly = true)
     public Post findPost(Long postId) {
         return postRepository.findByPostId(postId).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));

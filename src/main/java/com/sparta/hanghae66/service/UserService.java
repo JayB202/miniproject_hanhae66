@@ -46,13 +46,15 @@ public class UserService {
 
 
         UserRole role;
-        role = UserRole.USER;
-        if (userRole.equals("ADMIN")) {
-            role = UserRole.ADMIN;
+
+        if (userRole.equals("admin")) {
+
             if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
                 return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
             }
-
+            role =  UserRole.ADMIN;
+        }else{
+            role =  UserRole.USER;
         }
 
         User user = new User(userId, userName, userPassword, userYear, userSkill, role);
