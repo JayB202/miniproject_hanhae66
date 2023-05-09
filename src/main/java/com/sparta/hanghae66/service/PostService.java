@@ -87,12 +87,11 @@ public class PostService {
         boolean chkLike;
 
         for (Comment comment : commentList) {
-            CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
+            com.sparta.hanghae66.dto.CommentDto commentDto = new com.sparta.hanghae66.dto.CommentDto(comment, comment.getPost().getPostId());
             chkLike = chkLikeComment(commentDto.getCmtId(), userId);
             commentDto.setChkCommentLikes(chkLike);
             commentListDtoList.add(commentDto);
         }
-
         return commentListDtoList;
     }
 
