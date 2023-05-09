@@ -41,7 +41,7 @@ public class MyPageService {
         List<CommentDto> commentDtoList = new ArrayList<>();
 
         for(Comment comment: commentList){
-            CommentDto commentDto = new CommentDto(comment);
+            CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
             commentDtoList.add(commentDto);
 
         }

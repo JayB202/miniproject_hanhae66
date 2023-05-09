@@ -20,11 +20,14 @@ public class CommentDto {
 
     private String cmtUserName;
 
-    public CommentDto(Comment comment) {
+    private Long postId;
+
+    public CommentDto(Comment comment, Long postId) {
         this.cmtId = comment.getCmtId();
         this.cmtContent = comment.getCmtContent();
         this.cmtLikes = comment.getCmtLikes();
         this.cmtUserId = comment.getCmtUserId();
         this.cmtUserName = comment.getCmtUserName();
+        this.postId = postId;
     }
 }

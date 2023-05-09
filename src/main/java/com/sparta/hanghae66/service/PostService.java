@@ -84,7 +84,7 @@ public class PostService {
         List<CommentDto> commentListDtoList = new ArrayList<>();
 
         for(Comment comment: commentList) {
-            CommentDto commentDto = new CommentDto(comment);
+            CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
             commentListDtoList.add(commentDto);
         }
 
