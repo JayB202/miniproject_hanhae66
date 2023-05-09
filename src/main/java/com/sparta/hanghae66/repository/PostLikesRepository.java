@@ -13,4 +13,7 @@ public interface PostLikesRepository extends JpaRepository<PostLikes, Long> {
     Optional<PostLikes> findByPostLikesUserIdAndPostLikesId(String userId, Long postId);
     @Query("SELECT count(p) FROM TB_POSTLIKES p WHERE p.postLikesId = :postId AND p.postLikes = true ")
     Long getPostLikesCount(@Param("postId") Long postId);
+
+    @Query("SELECT p FROM TB_POSTLIKES p WHERE p.postLikesId = :postId and p.postLikesUserId = :userId")
+    PostLikes findByUserId(@Param("postId") Long postId, @Param("userId") String userId);
 }

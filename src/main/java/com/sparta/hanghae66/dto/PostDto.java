@@ -39,6 +39,8 @@ public class PostDto {
 
     private List<CommentDto> commentList;
 
+    private Boolean chkpostLikes;
+
     public PostDto(Post post) {
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
