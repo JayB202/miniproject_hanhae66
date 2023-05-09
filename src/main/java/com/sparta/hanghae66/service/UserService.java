@@ -9,6 +9,7 @@ import com.sparta.hanghae66.entity.UserRole;
 import com.sparta.hanghae66.repository.RefreshTokenRepository;
 import com.sparta.hanghae66.repository.UserRepository;
 import com.sparta.hanghae66.util.JwtUtil;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -120,12 +121,21 @@ public class UserService {
     @Transactional(readOnly = true)
     public ResponseDto userCheck(String userId) {
         Optional<User> found = userRepository.findByUserId(userId);
+        String namePattern = "^[a-z0-9]+$";
 
         if (found.isPresent()) {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseDto("사용가능한 아이디 입니다.", HttpStatus.OK);
+            if (!userId.matches(namePattern)) {
+                return new ResponseDto("소문자와 숫자만 입력 가능합니다.", HttpStatus.BAD_REQUEST);
+            }
+            else if(userId.length() <= 4 && userId.length() >= 10) {
+                return new ResponseDto("id 크기는 4 이상, 10 이하만 가능합니다.", HttpStatus.BAD_REQUEST);
+            }
+            else {
+                return new ResponseDto("사용가능한 아이디 입니다.", HttpStatus.OK);
+            }
         }
     }
 
