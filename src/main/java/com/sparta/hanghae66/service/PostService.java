@@ -56,7 +56,7 @@ public class PostService {
         Post post = findPost(postId);
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
-        List<CommentDto> commentDtoList = getAllComment(postId);  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+        List<CommentDto> commentDtoList = getAllComment(postId, user.getId());  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
 
         //조회수, 댓글수 여기서 매핑해서 저장함(개별조회에서 최신화됨)
         Long visitCnt = post.getPostVisitCnt();
@@ -81,12 +81,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentDto> getAllComment(Long postId) {
+    public List<CommentDto> getAllComment(Long postId, String userId) {
         List<Comment> commentList = commentRepository.findAllCommentById(postId);
         List<CommentDto> commentListDtoList = new ArrayList<>();
+        boolean chkLike;
 
         for(Comment comment: commentList) {
             CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
+            chkLike = chkLikeComment(commentDto.getCmtId(), userId);
+            commentDto.setChkCommentLikes(chkLike);
             commentListDtoList.add(commentDto);
         }
 
@@ -143,7 +146,6 @@ public class PostService {
                         postResponseDto.setModifiedTime(post.getModifiedAt());
                         return postResponseDto;
                     }
-
                 case ADMIN:
                     post.update(postRequestDto);
                     PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
