@@ -3,6 +3,7 @@ package com.sparta.hanghae66.service;
 
 import com.sparta.hanghae66.dto.*;
 import com.sparta.hanghae66.entity.*;
+import com.sparta.hanghae66.repository.CommentLikesRepository;
 import com.sparta.hanghae66.repository.CommentRepository;
 import com.sparta.hanghae66.repository.PostLikesRepository;
 import com.sparta.hanghae66.repository.PostRepository;
@@ -25,6 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
+    private final CommentLikesRepository commentLikesRepository;
 
     //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
@@ -98,6 +100,18 @@ public class PostService {
         {
             PostLikes postLikes = postLikesRepository.findByUserId(postId, userId);
             return postLikes.isPostLikes();
+        }
+        else
+            return false;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean chkLikeComment(Long commentId, String userId) {
+        Optional<CommentLikes> isLike = commentLikesRepository.findByUserId_Opt(commentId, userId);
+        if(isLike.isPresent())
+        {
+            CommentLikes commentLikes = commentLikesRepository.findByUserId(commentId, userId);
+            return commentLikes.isCmtLikes();
         }
         else
             return false;

@@ -22,6 +22,8 @@ public class CommentDto {
 
     private Long postId;
 
+    private boolean chkCommentLikes;
+
     public CommentDto(Comment comment, Long postId) {
         this.cmtId = comment.getCmtId();
         this.cmtContent = comment.getCmtContent();
