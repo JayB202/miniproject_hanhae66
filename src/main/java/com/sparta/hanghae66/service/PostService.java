@@ -129,6 +129,7 @@ public class PostService {
                         postResponseDto.setModifiedTime(post.getModifiedAt());
                         return postResponseDto;
                     }
+
                 case ADMIN:
                     post.update(postRequestDto);
                     PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
@@ -155,6 +156,7 @@ public class PostService {
                         postRepository.deleteById(postId);
                         return new ResponseDto("삭제완료", HttpStatus.OK);
                     }
+
                 case ADMIN:
                     postRepository.deleteById(postId);
                     return new ResponseDto("삭제완료", HttpStatus.OK);

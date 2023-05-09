@@ -23,7 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-
+    private static final String[] PERMIT_URL_ARRAY = {
+/* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+/* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -49,6 +61,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests().requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/post").permitAll()
+                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().accessDeniedPage("/auth/forbidden");
