@@ -36,6 +36,9 @@ public class Post extends Timestamped{
     private String userSkill;
 
     @Column
+    private Long userYear;
+
+    @Column
     @ColumnDefault("0")
     private Long postLikes;
 
@@ -61,13 +64,14 @@ public class Post extends Timestamped{
         comment.setPost(this);
     }
 
-    public Post(PostRequestDto postRequestDto, String username, String userId, String userSkill){
+    public Post(PostRequestDto postRequestDto, String username, String userId, String userSkill, Long userYear){
         this.postTitle = postRequestDto.getPostTitle();
         this.postContent = postRequestDto.getPostContent();
         this.postUserName= username;
         this.postUserId = userId;
         this.postSkill = postRequestDto.getPostSkill();
         this.userSkill = userSkill;
+        this.userYear = userYear;
         this.postVisitCnt = 0L;
         this.postLikes = 0L;
         this.cmtCount = 0L;

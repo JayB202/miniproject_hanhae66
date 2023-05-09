@@ -3,6 +3,7 @@ package com.sparta.hanghae66.service;
 
 import com.sparta.hanghae66.dto.*;
 import com.sparta.hanghae66.entity.*;
+import com.sparta.hanghae66.repository.CommentLikesRepository;
 import com.sparta.hanghae66.repository.CommentRepository;
 import com.sparta.hanghae66.repository.PostLikesRepository;
 import com.sparta.hanghae66.repository.PostRepository;
@@ -25,6 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
+    private final CommentLikesRepository commentLikesRepository;
 
     //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
@@ -41,6 +43,7 @@ public class PostService {
         return postListDtoList; // 리스트로
     }
 
+   
 
     @Transactional(readOnly = true)
     public Post findPost(Long postId) {
@@ -53,7 +56,7 @@ public class PostService {
         Post post = findPost(postId);
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
-        List<CommentDto> commentDtoList = getAllComment(postId);  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+        List<CommentDto> commentDtoList = getAllComment(postId, user.getId());  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
 
         //조회수, 댓글수 여기서 매핑해서 저장함(개별조회에서 최신화됨)
         Long visitCnt = post.getPostVisitCnt();
@@ -78,12 +81,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentDto> getAllComment(Long postId) {
+    public List<CommentDto> getAllComment(Long postId, String userId) {
         List<Comment> commentList = commentRepository.findAllCommentById(postId);
         List<CommentDto> commentListDtoList = new ArrayList<>();
+        boolean chkLike;
 
         for (Comment comment : commentList) {
             CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
+            chkLike = chkLikeComment(commentDto.getCmtId(), userId);
+            commentDto.setChkCommentLikes(chkLike);
             commentListDtoList.add(commentDto);
         }
 
@@ -100,13 +106,26 @@ public class PostService {
             return false;
     }
 
+    @Transactional(readOnly = true)
+    public boolean chkLikeComment(Long commentId, String userId) {
+        Optional<CommentLikes> isLike = commentLikesRepository.findByUserId_Opt(commentId, userId);
+        if(isLike.isPresent())
+        {
+            CommentLikes commentLikes = commentLikesRepository.findByUserId(commentId, userId);
+            return commentLikes.isCmtLikes();
+        }
+        else
+            return false;
+    }
+
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill());
+        Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill(), user.getUserYear());
         postRepository.save(post);
         PostResponseDto postResponseDto = new PostResponseDto(post);
         postResponseDto.setUserSkill(user.getUserSkill());
+        postResponseDto.setUserYear(String.valueOf(user.getUserYear()));
         postResponseDto.setCreatedAt(post.getCreatedAt());
         postResponseDto.setPostSkill(postRequestDto.getPostSkill());
         return postResponseDto;
