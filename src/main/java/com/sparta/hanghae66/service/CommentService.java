@@ -50,6 +50,7 @@ public class CommentService {
                         commentRepository.save(comment);
                         return new ResponseDto("댓글 수정완료", HttpStatus.OK);
                     }
+                    break;
                 case ADMIN:
                     comment.update(commentRequestDto.getCmtContent());
                     commentRepository.save(comment);
@@ -60,6 +61,7 @@ public class CommentService {
         } catch (Exception ex) {
             throw ex;
         }
+        return new ResponseDto("수정 할 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional
