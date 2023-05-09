@@ -30,11 +30,11 @@ public class PostService {
 
     //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
-    public List<PostDto> viewPostList(){
+    public List<PostDto> viewPostList() {
         List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
         List<PostDto> postListDtoList = new ArrayList<>();
         Long cmtSize = 0L;
-        for(Post post: postList) {
+        for (Post post : postList) {
             PostDto postDto = new PostDto(post);
             cmtSize = Long.valueOf(post.getCommentList().size());
             postDto.setCmtCount(cmtSize);
@@ -47,7 +47,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Post findPost(Long postId) {
-        return postRepository.findByPostId(postId).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
+        return postRepository.findByPostId(postId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않아요!"));
     }
 
     //게시글 선택 조회 코멘트 보임
@@ -86,7 +86,7 @@ public class PostService {
         List<CommentDto> commentListDtoList = new ArrayList<>();
         boolean chkLike;
 
-        for(Comment comment: commentList) {
+        for (Comment comment : commentList) {
             CommentDto commentDto = new CommentDto(comment, comment.getPost().getPostId());
             chkLike = chkLikeComment(commentDto.getCmtId(), userId);
             commentDto.setChkCommentLikes(chkLike);
@@ -99,12 +99,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public boolean chkLikePost(Long postId, String userId) {
         Optional<PostLikes> isLike = postLikesRepository.findByPostLikesUserIdAndPostLikesId(userId, postId);
-        if(isLike.isPresent())
-        {
+        if (isLike.isPresent()) {
             PostLikes postLikes = postLikesRepository.findByUserId(postId, userId);
             return postLikes.isPostLikes();
-        }
-        else
+        } else
             return false;
     }
 
@@ -140,48 +138,52 @@ public class PostService {
 
             switch (userRole) {
                 case USER:
-                    if(StringUtils.pathEquals(post.getPostUserId(), user.getId())) {
+                    if (StringUtils.pathEquals(post.getPostUserId(), user.getId())) {
                         post.update(postRequestDto);
                         PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
                         postResponseDto.setModifiedTime(post.getModifiedAt());
                         return postResponseDto;
                     }
+                    break;
                 case ADMIN:
                     post.update(postRequestDto);
                     PostResponseDto postResponseDto = new PostResponseDto(post.getPostId(), post.getPostTitle(), post.getPostContent(), post.getPostSkill(), post.getPostFile(), post.getPostLikes(), post.getPostUserId(), post.getPostUserName(), post.getPostVisitCnt(), post.getCmtCount());
                     postResponseDto.setModifiedTime(post.getModifiedAt());
                     return postResponseDto;
+
                 default:
                     return null;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw ex;
         }
+        return null;
     }
 
     @Transactional
     public ResponseDto deletePost(Long postId, User user) {
-        try{
+        try {
             Post post = findPost(postId);
             UserRole userRole = user.getRole();
 
-            switch (userRole){
-                case USER :
-                    if(StringUtils.pathEquals(post.getPostUserId(), user.getId())){
+            switch (userRole) {
+                case USER:
+                    if (StringUtils.pathEquals(post.getPostUserId(), user.getId())) {
                         postRepository.deleteById(postId);
                         return new ResponseDto("삭제완료", HttpStatus.OK);
                     }
+                    break;
 
                 case ADMIN:
                     postRepository.deleteById(postId);
-                    return new ResponseDto("삭제완료", HttpStatus.OK);
+                    return new ResponseDto("관리자에 의해 삭제된 게시글입니다.", HttpStatus.OK);
+
                 default:
                     return null;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw ex;
         }
+        return new ResponseDto("삭제할 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 }
