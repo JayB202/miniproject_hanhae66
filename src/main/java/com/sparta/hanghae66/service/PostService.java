@@ -121,10 +121,11 @@ public class PostService {
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill());
+        Post post = new Post(postRequestDto, user.getUserName(), user.getId(), user.getUserSkill(), user.getUserYear());
         postRepository.save(post);
         PostResponseDto postResponseDto = new PostResponseDto(post);
         postResponseDto.setUserSkill(user.getUserSkill());
+        postResponseDto.setUserYear(String.valueOf(user.getUserYear()));
         postResponseDto.setCreatedAt(post.getCreatedAt());
         postResponseDto.setPostSkill(postRequestDto.getPostSkill());
         return postResponseDto;

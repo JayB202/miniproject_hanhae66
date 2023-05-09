@@ -22,6 +22,8 @@ public class PostDto {
 
     private String userSkill;
 
+    private Long userYear;
+
     private String postFile;
 
     private Long postLikes;
@@ -47,6 +49,7 @@ public class PostDto {
         this.postContent = post.getPostContent();
         this.postSkill = post.getPostSkill();
         this.userSkill = post.getUserSkill();
+        this.userYear = post.getUserYear();
         this.postFile = post.getPostFile();
         this.postLikes = post.getPostLikes();
         this.postUserId = post.getPostUserId();

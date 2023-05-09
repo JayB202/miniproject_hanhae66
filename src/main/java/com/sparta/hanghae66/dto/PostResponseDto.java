@@ -1,6 +1,7 @@
 package com.sparta.hanghae66.dto;
 
 import com.sparta.hanghae66.entity.Post;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,8 @@ public class PostResponseDto {
     private String postSkill;
 
     private String userSkill;
+
+    private String userYear;
 
     private String postFile;
 
