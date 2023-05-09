@@ -62,6 +62,8 @@ public class PostController {
 
     }
 
+    @Operation(summary = "게시글 삭제 API" , description = "이미 존재하는 게시글 삭제")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "글 삭제 완료 메세지 리턴" )})
     @PostMapping("/like/{postId}")
     public ResponseDto postLikeService(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetailsImplement) {
         return likeService.postLikeService(postId, userDetailsImplement.getUser());
