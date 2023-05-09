@@ -53,7 +53,7 @@ public class CommentService {
                 case ADMIN:
                     comment.update(commentRequestDto.getCmtContent());
                     commentRepository.save(comment);
-                    return new ResponseDto("댓글 수정완료", HttpStatus.OK);
+                    return new ResponseDto("관리자에 의해 댓글이 수정되었습니다.", HttpStatus.OK);
                 default:
                     return null;
             }
@@ -75,15 +75,17 @@ public class CommentService {
                         commentRepository.delete(comment);
                         return new ResponseDto("삭제완료", HttpStatus.OK);
                     }
+                    break;
                 case ADMIN:
                     commentRepository.delete(comment);
-                    return new ResponseDto("삭제완료", HttpStatus.OK);
+                    return new ResponseDto("관리자에 의해 삭제된 댓글 입니다.", HttpStatus.OK);
                 default:
                     return null;
             }
         } catch (Exception ex) {
             throw ex;
         }
+        return new ResponseDto("삭제 할 권한이 없습니다.", HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
@@ -105,6 +107,4 @@ public class CommentService {
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
     }
-
-
 }
