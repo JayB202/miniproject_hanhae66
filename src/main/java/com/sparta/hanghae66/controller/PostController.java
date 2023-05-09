@@ -34,8 +34,8 @@ public class PostController {
     @Operation(summary = "글 상세 보기 API" , description = "게시글 상세 내용 보여줌 ")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "글 상세 정보 조회" )})
     @GetMapping("/post/{postId}")
-    public PostDto viewPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return postService.viewPost(postId, userDetails.getUser());
+    public PostDto viewPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails, jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response) {
+        return postService.viewPost(postId, userDetails.getUser(), request, response);
     }
 
     @Operation(summary = "게시글 작성 API" , description = "새로운 게시글 생성")
