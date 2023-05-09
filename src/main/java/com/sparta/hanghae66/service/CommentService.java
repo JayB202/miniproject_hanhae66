@@ -29,8 +29,8 @@ public class CommentService {
     public ResponseDto createComment(Long postId, String content, User user) {
         Post post = findPost(postId);
 
-        Comment comment = new Comment(content, user.getUserName(), user.getId());
-        post.addComment(comment);
+        Comment comment = new Comment(content, user.getUserName(), user.getId(), user.getUserYear(), post);
+        //post.addComment(comment);
 
         commentRepository.save(comment);
 

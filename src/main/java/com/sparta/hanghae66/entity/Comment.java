@@ -28,6 +28,9 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String cmtUserName;
 
+    @Column(nullable = false)
+    private Long cmtUserYear;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
@@ -36,7 +39,8 @@ public class Comment extends Timestamped {
         this.cmtContent = content;
         this.cmtUserName = userName;
         this.cmtUserId = userId;
-        this.cmtLikes = 0L;
+        this.cmtUserYear = cmtUserYear;
+        this.post = post;
      }
 
     public void update(String content) {

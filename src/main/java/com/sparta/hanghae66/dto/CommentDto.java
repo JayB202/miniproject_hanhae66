@@ -22,6 +22,8 @@ public class CommentDto {
 
     private Long postId;
 
+    private Long cmtUserYear;
+
     private boolean chkCommentLikes;
 
     public CommentDto(Comment comment, Long postId) {
@@ -31,5 +33,6 @@ public class CommentDto {
         this.cmtUserId = comment.getCmtUserId();
         this.cmtUserName = comment.getCmtUserName();
         this.postId = postId;
+        this.cmtUserYear = comment.getCmtUserYear();
     }
 }
