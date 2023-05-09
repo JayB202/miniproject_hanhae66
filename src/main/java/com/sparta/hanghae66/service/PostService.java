@@ -7,6 +7,7 @@ import com.sparta.hanghae66.repository.CommentLikesRepository;
 import com.sparta.hanghae66.repository.CommentRepository;
 import com.sparta.hanghae66.repository.PostLikesRepository;
 import com.sparta.hanghae66.repository.PostRepository;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -52,16 +53,44 @@ public class PostService {
 
     //게시글 선택 조회 코멘트 보임
     @Transactional
-    public PostDto viewPost(Long postId, User user) {
+    public PostDto viewPost(Long postId, User user, jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response ) {
         Post post = findPost(postId);
         //포스트리스폰스 + 코멘트리스폰스 + 라이크리스폰스
         PostDto postDto = new PostDto(post);
         List<CommentDto> commentDtoList = getAllComment(postId, user.getId());  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
 
         //조회수, 댓글수 여기서 매핑해서 저장함(개별조회에서 최신화됨)
-        Long visitCnt = post.getPostVisitCnt();
-        visitCnt++;
-        post.setPostVisitCnt(visitCnt);
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        Long visitCnt = 0L;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("postView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + postId.toString() + "]")) {
+                visitCnt = post.getPostVisitCnt();
+                visitCnt++;
+                post.setPostVisitCnt(visitCnt);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + postId + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 12);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            visitCnt = post.getPostVisitCnt();
+            visitCnt++;
+            post.setPostVisitCnt(visitCnt);
+            Cookie newCookie = new Cookie("postView","[" + postId + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 12);
+            response.addCookie(newCookie);
+        }
+
 
         Long cmtCnt = Long.valueOf(commentDtoList.size());
         post.setCmtCount(cmtCnt);
