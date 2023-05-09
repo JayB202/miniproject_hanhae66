@@ -47,8 +47,9 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // h2-console 사용 및 resources 접근 허용 설정
-        return (web) -> web.ignoring()
 
+        return (web) -> web.ignoring()
+                .requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -67,7 +68,10 @@ public class WebSecurityConfig {
 //                .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 //        http.exceptionHandling().accessDeniedPage("/auth/forbidden");
 
+
+
         http
+
                 .cors().and()
                 .csrf().disable()
                 .httpBasic().disable()

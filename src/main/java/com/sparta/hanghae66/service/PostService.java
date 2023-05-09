@@ -3,15 +3,14 @@ package com.sparta.hanghae66.service;
 
 import com.sparta.hanghae66.dto.*;
 import com.sparta.hanghae66.entity.*;
-import com.sparta.hanghae66.repository.CommentLikesRepository;
-import com.sparta.hanghae66.repository.CommentRepository;
-import com.sparta.hanghae66.repository.PostLikesRepository;
-import com.sparta.hanghae66.repository.PostRepository;
+import com.sparta.hanghae66.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import com.sparta.hanghae66.entity.DeletedPost;
+import com.sparta.hanghae66.entity.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
     private final CommentLikesRepository commentLikesRepository;
-
+    private final DelPostRepository delPostRepository;
     //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
     public List<PostDto> viewPostList() {
@@ -169,12 +168,17 @@ public class PostService {
             switch (userRole) {
                 case USER:
                     if (StringUtils.pathEquals(post.getPostUserId(), user.getId())) {
+                        DeletedPost deletedPost = new DeletedPost(post);
+                        delPostRepository.save(deletedPost);
                         postRepository.deleteById(postId);
+
                         return new ResponseDto("삭제완료", HttpStatus.OK);
                     }
                     break;
 
                 case ADMIN:
+                    DeletedPost deletedPost = new DeletedPost(post);
+                    delPostRepository.save(deletedPost);
                     postRepository.deleteById(postId);
                     return new ResponseDto("관리자에 의해 삭제된 게시글입니다.", HttpStatus.OK);
 
