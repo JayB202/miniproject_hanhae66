@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.sparta.hanghae66.util.JwtUtil.ACCESS_KEY;
-import static com.sparta.hanghae66.util.JwtUtil.REFRESH_KEY;
 
 @Service
 @RequiredArgsConstructor
