@@ -112,6 +112,7 @@ public class UserService {
     public ResponseDto userCheck(String userId) {
         Optional<User> found = userRepository.findByUserId(userId);
         String namePattern = "^[a-z0-9]+$";
+        int chk = userId.length();
 
         if (found.isPresent()) {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
@@ -120,7 +121,10 @@ public class UserService {
             if (!userId.matches(namePattern)) {
                 return new ResponseDto("소문자와 숫자만 입력 가능합니다.", HttpStatus.BAD_REQUEST);
             }
-            else if(userId.length() <= 4 && userId.length() >= 10) {
+            else if(chk <= 4) {
+                return new ResponseDto("id 크기는 4 이상, 10 이하만 가능합니다.", HttpStatus.BAD_REQUEST);
+            }
+            else if(chk >= 10) {
                 return new ResponseDto("id 크기는 4 이상, 10 이하만 가능합니다.", HttpStatus.BAD_REQUEST);
             }
             else {
