@@ -43,8 +43,9 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private static final long ACCESS_TIME = 60 * 1000L;
-    private static final long REFRESH_TIME = 2 * 60 * 1000L;
+    private static final long ACCESS_TIME = 60 * 60 * 1000L;
+    private static final long REFRESH_TIME = 24 * 60 * 60 * 1000L;
+
     private final UserDetailsServiceImpl userDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -77,7 +78,6 @@ public class JwtUtil {
     // JWT 생성하기
     public String createToken(String userId, UserRole role, String type) {
         Date date = new Date();
-//        Date exprTime = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
         long time = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
 
         return BEARER_PREFIX
@@ -87,7 +87,6 @@ public class JwtUtil {
                 .claim(AUTHORIZATION_KEY, role)
                 .setIssuedAt(date)
                 .setExpiration(new Date(date.getTime() + time))
-                //.setExpiration(type.equals("Access") ? ACCESS_TIME : REFRESH_TIME)
                 .compact();
     }
 
