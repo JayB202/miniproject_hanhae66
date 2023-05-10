@@ -97,7 +97,7 @@ public class UserService {
             }
 
             //응답 헤더에 토큰 추가
-            setHeader(response, tokenDto);
+            setHeader(response, tokenDto, user);
             return new ResponseDto("성공", HttpStatus.OK);
 
         } catch (IllegalArgumentException e) {
@@ -105,9 +105,10 @@ public class UserService {
         }
     }
 
-    private void setHeader(jakarta.servlet.http.HttpServletResponse response, TokenDto tokenDto) {
+    private void setHeader(jakarta.servlet.http.HttpServletResponse response, TokenDto tokenDto, User user) {
         response.addHeader(ACCESS_KEY, tokenDto.getAccessToken());
         response.addHeader(REFRESH_KEY, tokenDto.getRefreshToken());
+        response.addHeader("USER_ROLE", user.getRole().getAuthority());
     }
 
     @Transactional(readOnly = true)
