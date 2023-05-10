@@ -40,6 +40,7 @@ public class Comment extends Timestamped {
         this.cmtUserId = userId;
         this.cmtUserYear = cmtUserYear;
         this.post = post;
+        this.cmtLikes = 0L;
      }
 
     public void update(String content) {

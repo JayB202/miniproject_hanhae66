@@ -61,7 +61,7 @@ public class LikeService {
             CommentLikes commentLikes = new CommentLikes(comment.getCmtId(), user.getUserName(), user.getId(), true);
             commentLikesRepository.save(commentLikes);
         }
-        long likes = commentLikesRepository.getCmtLikesCount(user.getId(), commentId);
+        long likes = commentLikesRepository.getCmtLikesCount(commentId);
         comment.setCmtLikes(likes);
         commentRepository.save(comment);
         return new ResponseDto("좋아요!", HttpStatus.OK);
