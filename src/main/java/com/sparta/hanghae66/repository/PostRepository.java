@@ -20,6 +20,6 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
     List<Post> findAllByPostTitleContaining(String keyword);
     List<Post> findAllByPostContentContaining(String keyword);
 
-     @Query("SELECT p FROM TB_POST p WHERE p.postTitle LIKE : keyword||'%'OR p.postContent LIKE :keyword||'%'")
+     @Query("SELECT p FROM TB_POST p WHERE p.postTitle LIKE '%'||:keyword||'%'OR p.postContent LIKE '%'||:keyword||'%'")
      List<Post> findAllByPostTitleContainingOrPostContentContaining(@Param("keyword") String keyword);
 }

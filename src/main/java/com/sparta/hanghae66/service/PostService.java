@@ -221,7 +221,7 @@ public class PostService {
         return new ResponseDto("삭제할 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostDto> searchPost(String keyword, String sortBy){
         List<Post> postList = new ArrayList<>();
         if(sortBy.equals("title")) {
