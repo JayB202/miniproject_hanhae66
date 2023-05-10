@@ -47,6 +47,7 @@ public class MyPageService {
         }
         return commentDtoList;
     }
+
     @Transactional
     public MyPageResponseDto mypage(String userId){
 

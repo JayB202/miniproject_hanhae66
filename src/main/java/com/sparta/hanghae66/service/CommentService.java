@@ -30,7 +30,6 @@ public class CommentService {
         Post post = findPost(postId);
 
         Comment comment = new Comment(content, user.getUserName(), user.getId(), user.getUserYear(), post);
-        //post.addComment(comment);
 
         commentRepository.save(comment);
 
@@ -89,6 +88,7 @@ public class CommentService {
         }
         return new ResponseDto("삭제 할 권한이 없습니다.", HttpStatus.OK);
     }
+
 
     @Transactional(readOnly = true)
     public List<Comment> myCommentList(User user) {

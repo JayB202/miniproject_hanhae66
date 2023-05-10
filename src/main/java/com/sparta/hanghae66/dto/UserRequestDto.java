@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-
     @Size(min = 4, max = 10, message = "id는 4 이상, 10 이하만 가능합니다.")
     @Pattern(regexp = "^[a-z0-9]+$", message = "소문자와 숫자만 입력 가능합니다.")
     @NotNull(message = "id를 입력해주세요")
@@ -30,7 +29,5 @@ public class UserRequestDto {
     private String adminToken = "";
 
     private String userSkill;
-
     private Long userYear;
-
 }

@@ -9,5 +9,4 @@ import org.springframework.http.HttpStatus;
 public class ResponseDto {
     private String msg;
     private HttpStatus code;
-
 }

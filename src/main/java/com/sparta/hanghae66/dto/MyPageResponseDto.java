@@ -20,7 +20,6 @@ public class MyPageResponseDto {
     private List<PostDto> postList;
     private List<CommentDto> commentList;
 
-
     public MyPageResponseDto(User user){
         this.userId = user.getId();
         this.userName = user.getUserName();
@@ -28,6 +27,4 @@ public class MyPageResponseDto {
         this.userYear = user.getUserYear();
         this.userCrdat = user.getCreatedAt();
     }
-
-
 }

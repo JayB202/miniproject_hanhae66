@@ -59,11 +59,6 @@ public class Post extends Timestamped{
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
-    public void addComment(Comment comment) {
-        commentList.add(comment);
-        comment.setPost(this);
-    }
-
     public Post(PostRequestDto postRequestDto, String username, String userId, String userSkill, Long userYear){
         this.postTitle = postRequestDto.getPostTitle();
         this.postContent = postRequestDto.getPostContent();

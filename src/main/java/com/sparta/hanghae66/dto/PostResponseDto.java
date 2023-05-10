@@ -14,26 +14,17 @@ import java.time.LocalDateTime;
 public class PostResponseDto {
 
     private Long postId;
-
     private String postTitle;
-
     private String postContent;
-
     private String postSkill;
+    private String postFile;
+    private Long postLikes;
+    private String postUserId;
+    private String postUserName;
+    private Long postVisitCnt;
 
     private String userSkill;
-
     private String userYear;
-
-    private String postFile;
-
-    private Long postLikes;
-
-    private String postUserId;
-
-    private String postUserName;
-
-    private Long postVisitCnt;
 
     private Long cmtCount;
 

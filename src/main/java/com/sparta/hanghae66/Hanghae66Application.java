@@ -26,7 +26,7 @@ public class Hanghae66Application {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://127.0.0.1:3000", "http://hanghae66.s3-website.ap-northeast-2.amazonaws.com")
                         .allowedOriginPatterns("*")
-                        .exposedHeaders("ACCESS_KEY", "Authorization")
+                        .exposedHeaders("ACCESS_KEY", "Authorization", "Set-Cookie")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "PATCH")
                         //.allowedHeaders()
                         .allowCredentials(true)

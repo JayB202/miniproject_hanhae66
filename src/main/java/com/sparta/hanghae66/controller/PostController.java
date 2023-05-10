@@ -42,8 +42,7 @@ public class PostController {
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "게시글 생성" )})
     @PostMapping("/post")
     public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        System.out.println("postRequestDto = " + postRequestDto.getPostTitle());
-//        System.out.println("userDetails = " + userDetails.getUser().getUserName());
+
         return postService.createPost(postRequestDto, userDetails.getUser());
     }
 
@@ -59,13 +58,22 @@ public class PostController {
     @DeleteMapping("/post/{postId}")
     public ResponseDto deletePost(@PathVariable Long postId,  @AuthenticationPrincipal UserDetailsImpl userDetails){
         return postService.deletePost(postId, userDetails.getUser());
-
     }
 
-    @Operation(summary = "게시글 삭제 API" , description = "이미 존재하는 게시글 삭제")
-    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "글 삭제 완료 메세지 리턴" )})
+    @Operation(summary = "게시글 좋아요 API" , description = "게시글 좋아요")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "게시글 좋아요, 한 번더 누르면 true, false" )})
     @PostMapping("/like/{postId}")
     public ResponseDto postLikeService(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetailsImplement) {
         return likeService.postLikeService(postId, userDetailsImplement.getUser());
+    }
+
+    @Operation(summary = "게시글 검색 API" , description = "키워드에 따른 검색")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "게시글 검색" )})
+    @GetMapping("/post/search")
+    public List<PostDto> searchPost(@RequestParam(value = "keyword") String keyword
+                                    ,@RequestParam("sortBy") String sortBy
+
+    ){
+        return postService.searchPost(keyword, sortBy);
     }
 }

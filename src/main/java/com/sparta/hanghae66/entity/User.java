@@ -28,8 +28,6 @@ public class User extends UserDate {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
-
-
     public User(String id, String userName, String userPassword, Long userYear, String userSkill, UserRole role) {
         this.id = id;
         this.userName = userName;

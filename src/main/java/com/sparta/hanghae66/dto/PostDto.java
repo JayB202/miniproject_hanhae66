@@ -13,35 +13,25 @@ import java.util.List;
 @Setter
 public class PostDto {
     private Long postId;
-
     private String postTitle;
-
     private String postContent;
-
     private String postSkill;
-
-    private String userSkill;
-
-    private Long userYear;
-
     private String postFile;
-
     private Long postLikes;
-
     private String postUserId;
-
     private String postUserName;
-
     private Long postVisitCnt;
 
+    private String userSkill;
+    private Long userYear;
+
     private Long cmtCount;
+    private List<CommentDto> commentList;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    private List<CommentDto> commentList;
-
-    private Boolean chkpostLikes;
+        private Boolean chkpostLikes;
 
     public PostDto(Post post) {
         this.postId = post.getPostId();

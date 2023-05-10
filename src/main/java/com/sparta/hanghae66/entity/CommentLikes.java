@@ -28,12 +28,6 @@ public class CommentLikes {
     @ColumnDefault("false")
     private boolean cmtLikes;
 
-//    public getCommentLikes(Long commentId, String username, boolean likes) {
-//        this.commentId = commentId;
-//        this.username = username;
-//        this.likes = likes;
-//    }
-
     public CommentLikes(Long cmtLikesId, String cmtLikesUserName, String cmtLikesUserId, boolean cmtLikes) {
         this.cmtLikesId = cmtLikesId;
         this.cmtLikesUserName = cmtLikesUserName;

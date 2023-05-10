@@ -43,11 +43,9 @@ public class UserService {
             return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
         }
 
-
         UserRole role;
 
         if (userRole.equals("admin")) {
-
             if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
                 return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
             }
@@ -69,24 +67,19 @@ public class UserService {
 
         String userId = requestDto.getUserId();
         String userPassword = requestDto.getUserPassword();
-//        String test = passwordEncoder.encode(password);
 
         try {
             User user = userRepository.findByUserId(userId).orElseThrow(
                     () -> new IllegalArgumentException("없는 ID 입니다.")
             );
-//            String test2 = user.getPassword();
 
             // 비밀번호 확인
             if(!passwordEncoder.matches(userPassword, user.getUserPassword())){
                 return new ResponseDto("비밀번호를 확인해주세요!!", HttpStatus.BAD_REQUEST);
             }
 
-
             //username (ID) 정보로 Token 생성
             TokenDto tokenDto = jwtUtil.createAllToken(requestDto.getUserId(), user.getRole());
-
-
 
             //Refresh 토큰 있는지 확인
             Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserId(requestDto.getUserId());
@@ -113,7 +106,6 @@ public class UserService {
 
     private void setHeader(jakarta.servlet.http.HttpServletResponse response, TokenDto tokenDto) {
         response.addHeader(ACCESS_KEY, tokenDto.getAccessToken());
-//        response.addHeader(REFRESH_KEY, tokenDto.getRefreshToken());
     }
 
     @Transactional(readOnly = true)
