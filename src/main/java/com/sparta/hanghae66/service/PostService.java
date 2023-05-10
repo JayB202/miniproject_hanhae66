@@ -3,17 +3,19 @@ package com.sparta.hanghae66.service;
 
 import com.sparta.hanghae66.dto.*;
 import com.sparta.hanghae66.entity.*;
-import com.sparta.hanghae66.repository.CommentLikesRepository;
-import com.sparta.hanghae66.repository.CommentRepository;
-import com.sparta.hanghae66.repository.PostLikesRepository;
-import com.sparta.hanghae66.repository.PostRepository;
+import com.sparta.hanghae66.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PostLikesRepository postLikesRepository;
     private final CommentLikesRepository commentLikesRepository;
+    private final VisitInfoRepository visitInfoRepository;
 
     //게시글 전체 조회(코멘트 안보임)
     @Transactional(readOnly = true)
@@ -50,10 +53,20 @@ public class PostService {
     //게시글 선택 조회 코멘트 보임
     @Transactional
     public PostDto viewPost(Long postId, User user, jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response ) {
+        String userId = user.getId();
         Post post = findPost(postId);
         PostDto postDto = new PostDto(post);
-        List<CommentDto> commentDtoList = getAllComment(postId, user.getId());  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+        List<CommentDto> commentDtoList = getAllComment(postId, userId);  // 요기를 commentRepository 에서 postId로 긁어오면 . . .?
+        postViewCheck(userId, post, postDto);
+        Long cmtCnt = Long.valueOf(commentDtoList.size());
+        post.setCmtCount(cmtCnt);
+        postDto.setCmtCount(cmtCnt);
+        postRepository.save(post);
+        Boolean chkPostLikes = chkLikePost(postId, userId);
+        postDto.setChkpostLikes(chkPostLikes);
+        postDto.setCommentList(commentDtoList);
 
+        return postDto;  // 리스트로해서 리스폰스  + 코네트리스폰스
         //조회수, 댓글수 여기서 매핑해서 저장함(개별조회에서 최신화됨)
 //        Cookie oldCookie = null;
 //        Cookie[] cookies = request.getCookies();
@@ -95,23 +108,6 @@ public class PostService {
 //
 //            response.addCookie(newCookie);
 //        }
-
-
-        Long cmtCnt = Long.valueOf(commentDtoList.size());
-        post.setCmtCount(cmtCnt);
-        postDto.setCmtCount(cmtCnt);
-        postRepository.save(post);
-
-//        List<CommentDto> commentMatchDto = commentDtoList.stream()
-//                .filter(t -> Objects.equals(t.getCmtUserId(), postId))
-//                .collect(Collectors.toList());
-
-        Boolean chkPostLikes = chkLikePost(postId, user.getId());
-        postDto.setChkpostLikes(chkPostLikes);
-
-        postDto.setCommentList(commentDtoList);
-
-        return postDto;  // 리스트로해서 리스폰스  + 코네트리스폰스
     }
 
     @Transactional(readOnly = true)
@@ -222,6 +218,9 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostDto> searchPost(String keyword, String sortBy){
         List<Post> postList = new ArrayList<>();
+        List<PostDto> postListDtoList = new ArrayList<>();
+        Long cmtSize = 0L;
+
         if(sortBy.equals("title")) {
             postList = postRepository.findAllByPostTitleContaining(keyword);
         }
@@ -235,11 +234,9 @@ public class PostService {
         }
 
         if(postList.size() == 0) {
-            throw new IllegalArgumentException("검색 결과가 존재하지 않습니다.");
+            return postListDtoList;
         }
 
-        List<PostDto> postListDtoList = new ArrayList<>();
-        Long cmtSize = 0L;
         for (Post post : postList) {
             PostDto postDto = new PostDto(post);
             cmtSize = Long.valueOf(post.getCommentList().size());
@@ -247,5 +244,59 @@ public class PostService {
             postListDtoList.add(postDto);
         }
         return postListDtoList; // 리스트로
+    }
+
+    @Transactional
+    public void postViewCheck(String userId, Post post, PostDto postDto) {
+        Long postId =post.getPostId();
+        String visitDat = "";
+        List<String> visitDataList = new ArrayList<>();
+        int crDat = 0;
+        int crTime = 0;
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+        LocalDate nowDate = LocalDate.now();
+        LocalTime nowTime = LocalTime.now();
+        VisitInfo visitInfo = null;
+        crDat = Integer.parseInt(nowDate.toString().replaceAll("-", ""));
+        crTime = Integer.parseInt(nowTime.format(timeFormatter));
+
+        Optional<VisitInfo> chkVisitInfo = visitInfoRepository.findVisitInfoByVisitUserId_Opt(userId);
+        if(chkVisitInfo.isPresent())
+        {
+            visitInfo = visitInfoRepository.findVisitInfoByVisitUserId_ent(userId);
+            //현재날짜가 visitInfo의 데이터 날짜보다 크거나 같을때 1, // 20230509
+            if(crDat > visitInfo.getVisitCrdAt()) {
+                visitDat = postId + ", ";
+                visitInfo.setVisitCrdAt(crDat);
+                visitInfo.setVisitCrTime(crTime);
+                visitInfo.setVisitData(visitDat);
+                visitInfoRepository.save(visitInfo);
+                visitCnt(post, postDto);
+            }
+            else {   //crDat이 작을때 -> visitInfo의 데이터 날짜가 더 클때
+                visitDat = visitInfo.getVisitData(); // 1, 2,
+                visitDataList = Arrays.asList(visitDat.split(", "));
+                if(!visitDataList.contains(postId.toString())) {
+                    visitDat += postId + ", ";  //1, 2, 3,
+                    visitCnt(post, postDto);
+                }
+                visitInfo.setVisitData(visitDat);
+                visitInfoRepository.save(visitInfo);
+            }
+        }
+        else {
+            visitDat = postId + ", ";     //1, 2, 3, 4, .....
+            visitInfo = new VisitInfo(userId, visitDat, crDat, crTime);
+            visitInfoRepository.save(visitInfo);
+            visitCnt(post, postDto);
+        }
+    }
+
+    public void visitCnt(Post post, PostDto postDto) {
+        Long visitCnt;
+        visitCnt = post.getPostVisitCnt();
+        visitCnt++;
+        postDto.setPostVisitCnt(visitCnt);
+        post.setPostVisitCnt(visitCnt);
     }
 }
