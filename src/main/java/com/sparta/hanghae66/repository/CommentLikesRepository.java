@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface CommentLikesRepository extends JpaRepository<CommentLikes, Long> {
     Optional<CommentLikes> findByCmtLikesUserIdAndCmtLikesId(String comLikesUserId, Long cmtLikesId);
 
-    @Query("SELECT count(c) FROM TB_CMTLIKES c WHERE c.cmtLikesUserId = :userId AND c.cmtLikesId = :commentId")
-    Long getCmtLikesCount(@Param("userId") String userId,  @Param("commentId") Long commentId);
+    @Query("SELECT count(c) FROM TB_CMTLIKES c WHERE c.cmtLikesId = :commentId AND c.cmtLikes = true")
+    Long getCmtLikesCount(@Param("commentId") Long commentId);
 
     @Query("SELECT c FROM TB_CMTLIKES c WHERE c.cmtLikesId = :commentId and c.cmtLikesUserId = :userId")
     CommentLikes findByUserId(@Param("commentId") Long commentId, @Param("userId") String userId);

@@ -142,12 +142,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public boolean chkLikeComment(Long commentId, String userId) {
         Optional<CommentLikes> isLike = commentLikesRepository.findByUserId_Opt(commentId, userId);
-        if(isLike.isPresent())
-        {
+        if(isLike.isPresent()) {
             CommentLikes commentLikes = commentLikesRepository.findByUserId(commentId, userId);
             return commentLikes.isCmtLikes();
-        }
-        else
+        } else
             return false;
     }
 

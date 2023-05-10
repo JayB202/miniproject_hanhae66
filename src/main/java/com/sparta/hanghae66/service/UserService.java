@@ -124,7 +124,7 @@ public class UserService {
             else if(chk < 4) {
                 return new ResponseDto("id 크기는 4 이상, 10 이하만 가능합니다.", HttpStatus.BAD_REQUEST);
             }
-            else if(chk >= 10) {
+            else if(chk > 10) {
                 return new ResponseDto("id 크기는 4 이상, 10 이하만 가능합니다.", HttpStatus.BAD_REQUEST);
             }
             else {

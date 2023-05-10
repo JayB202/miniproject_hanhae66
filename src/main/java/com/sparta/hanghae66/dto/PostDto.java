@@ -31,7 +31,7 @@ public class PostDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-        private Boolean chkpostLikes;
+    private Boolean chkpostLikes;
 
     public PostDto(Post post) {
         this.postId = post.getPostId();
