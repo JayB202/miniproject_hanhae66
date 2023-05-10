@@ -33,6 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         //헤더에 있는 엑세스, 리프레쉬 토큰 가져옴
         String access_token = jwtUtil.resolveToken(request, ACCESS_KEY);
         String refresh_token = jwtUtil.resolveToken(request, REFRESH_KEY);
+
         //엑세스 토큰 유무부터 검사
         if (access_token != null) {
             // 액세스 토큰 유효성 검사

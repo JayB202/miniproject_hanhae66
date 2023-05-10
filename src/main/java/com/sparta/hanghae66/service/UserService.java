@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.sparta.hanghae66.util.JwtUtil.ACCESS_KEY;
+import static com.sparta.hanghae66.util.JwtUtil.REFRESH_KEY;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +107,7 @@ public class UserService {
 
     private void setHeader(jakarta.servlet.http.HttpServletResponse response, TokenDto tokenDto) {
         response.addHeader(ACCESS_KEY, tokenDto.getAccessToken());
+        response.addHeader(REFRESH_KEY, tokenDto.getRefreshToken());
     }
 
     @Transactional(readOnly = true)
