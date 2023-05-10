@@ -11,8 +11,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,9 +47,16 @@ public class PostController {
     @Operation(summary = "게시글 작성 API" , description = "새로운 게시글 생성")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "게시글 생성" )})
     @PostMapping("/post")
-    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-
-        return postService.createPost(postRequestDto, userDetails.getUser());
+    public PostResponseDto createPost(@Valid @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            for(FieldError fieldError: bindingResult.getFieldErrors()) {
+                sb.append(fieldError.getDefaultMessage());
+            }
+            return null;
+        }
+        else
+            return postService.createPost(postRequestDto, userDetails.getUser());
     }
 
     @Operation(summary = "게시글 수정 API" , description = "이미 존재하는 게시글 수정")
