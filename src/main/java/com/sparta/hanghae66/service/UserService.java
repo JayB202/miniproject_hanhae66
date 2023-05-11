@@ -25,7 +25,7 @@ import static com.sparta.hanghae66.util.JwtUtil.REFRESH_KEY;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+    private static final String ADMIN_TOKEN = "HyEoNgYuHaEjInSeOnGyUSeUnGhEeJoNgBeoMSiOk";
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
