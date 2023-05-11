@@ -17,6 +17,7 @@ https://www.notion.so/S-A-afa6ceba07db4022bebde44ccb35807a
 ## 📰 ERD
 
 ## 📖 API 명세서
+http://13.125.248.62:8080/swagger-ui/index.html#/
 
 ## ⚙️ Tech Stack
 
