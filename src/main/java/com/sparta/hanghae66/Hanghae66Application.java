@@ -31,7 +31,6 @@ public class Hanghae66Application {
                         //.allowedHeaders()
                         .allowCredentials(true)
                         .maxAge(3600);
-
             }
         };
     }
