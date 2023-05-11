@@ -15,6 +15,8 @@ https://www.notion.so/S-A-afa6ceba07db4022bebde44ccb35807a
 
 ## 📖 API 명세서
 
+## ⚙️ Tech Stack
+
 ## 1️⃣ 회원 관련 기능
   1. 회원 가입 API
     - 
