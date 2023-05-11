@@ -16,8 +16,15 @@ https://www.notion.so/S-A-afa6ceba07db4022bebde44ccb35807a
 
 ## 📰 ERD
 
+![hh66 ERD](https://github.com/seunghee58/miniproject_hanhae66/assets/129656095/a5a8e351-6365-43c1-bede-76a5bc01670f)
+
+
 ## 📖 API 명세서
 http://13.125.248.62:8080/swagger-ui/index.html#/
+<details>
+  <summary> 펼쳐보기 </summary>
+<img width="964" alt="hh66 API 명세서" src="https://github.com/seunghee58/miniproject_hanhae66/assets/129656095/719cd245-0070-4e8d-9870-8fb55d2f5265">
+</details>
 
 ## ⚙️ Tech Stack
 
