@@ -42,6 +42,11 @@ public class UserController {
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "로그인 성공!" )})
     @PostMapping("/login")
     public ResponseDto login(@RequestBody UserRequestDto requestDto, jakarta.servlet.http.HttpServletResponse response) {
+        for(char c : requestDto.getUserId().toCharArray()) {
+            if(Character.isUpperCase(c)) {
+                return new ResponseDto("아이디는 대문자일 수 없습니다.", HttpStatus.BAD_REQUEST);
+            }
+        }
         return userService.login(requestDto, response);
     }
 
