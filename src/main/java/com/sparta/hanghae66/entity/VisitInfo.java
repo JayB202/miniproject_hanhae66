@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "TB_VISITINFO")
 public class VisitInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
