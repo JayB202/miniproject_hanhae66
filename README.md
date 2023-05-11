@@ -1,8 +1,11 @@
 
+# miniproject_hanhae66
+
 ![항해66](https://github.com/seunghee58/miniproject_hanhae66/assets/129656095/7893b3ae-5d9e-4f26-8f1e-e6802da9597e)
 
-# miniproject_hanhae66
-### 항해66 블라인드 게시판
+>개발 기간: 2023.05.04 ~ 2023.05.11</p>🎥 시연영상 https://www.youtube.com/watch?v=mGZ9BXAWmiE
+
+### 🖐항해66 블라인드 게시판
   - 항해가 66일 남은 날 프로젝트를 시작하였고, 항해의 뒷 모습 이란 생각에 항해 66으로 이름을 지었다.
   - 항해66은 항해를 하는 사람들의 익명 게시판이다. Blind를 벤치 마킹 하였다. 
   - 유저의 아이디의 첫 글자, 주특기, 기수만 공개된다  ex) u***** (Spring) 14기
@@ -22,6 +25,16 @@ https://www.notion.so/S-A-afa6ceba07db4022bebde44ccb35807a
   <summary> 펼쳐보기 </summary>
 <img width="964" alt="hh66 API 명세서" src="https://github.com/seunghee58/miniproject_hanhae66/assets/129656095/719cd245-0070-4e8d-9870-8fb55d2f5265">
 </details>
+
+## 👨‍👩‍👧팀원
+|이름|역할|
+|------|---|
+|이현규(BE팀장)</br>[@OliveLover](https://github.com/OliveLover)|- 댓글 API</br>- 게시글, 댓글 좋아요 API</br>- 서버 배포</br>- 검색 기능</br>- DB 연동|
+|정성윤</br>[@kanteluv](https://github.com/kanteluv)|- RefreshToken, AccessToken</br>- 유저 API </br>- entity 연관관계|
+|김종범</br>[@JayB202](https://github.com/JayB202)|-게시글 API</br>-  검색 기능|
+|한승희</br>[@seunghee58](https://github.com/seunghee58)|- 댓글 API </br>- 게시글, 댓글 좋아요 API </br>-  검색 기능|
+
+FE git hub : https://github.com/HaeJinS2/MiniProject_Hanghae66_FE
 
 ## ⚙️ Tech Stack
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <br>
